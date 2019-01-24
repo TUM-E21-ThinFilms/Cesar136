@@ -1,7 +1,7 @@
 from CeasarCommunication import MessagePacket
 
 
-class commands():
+class Command():
     def __init__(self, commandNumber, DataBytesTosend, DatabytesExpected, DataConfig=None):
         self.commandNumber = commandNumber
         self.DataBytesToSend = DataBytesTosend
@@ -22,12 +22,12 @@ class commands():
             self.intBinArray = MessagePacket().createMessagePacket(self.commandNumber)
 
 
-turnOutputOff = commands(1, 0, 1)
+turnOutputOff = Command(1, 0, 1)
 
-reportPowerSupplyType = commands(128, 0, 5, [[5], [2]])
-reportModelNumber = commands(129, 0, 5, [[5], [0]])
-reportRFRampOnOff = commands(151, 0, 4, [[2, 4], [0, 0]])
+reportPowerSupplyType = Command(128, 0, 5, [[5], [2]])
+reportModelNumber = Command(129, 0, 5, [[5], [0]])
+reportRFRampOnOff = Command(151, 0, 4, [[2, 4], [0, 0]])
 
-reportReflectedPowerParameters = commands(152, 0, 3, [[1, 3], [0, 0]])
-reportRegulationMode = commands(154, 0, 1, [[1], [1]])
-reportActiveControlMode = commands(155, 0, 1, [[1], [1]])
+reportReflectedPowerParameters = Command(152, 0, 3, [[1, 3], [0, 0]])
+reportRegulationMode = Command(154, 0, 1, [[1], [1]])
+reportActiveControlMode = Command(155, 0, 1, [[1], [1]])

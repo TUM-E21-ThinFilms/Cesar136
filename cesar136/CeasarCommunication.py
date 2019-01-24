@@ -6,13 +6,24 @@
 CesarSerialNumber = 1  # defined by the Cesar unit used
 
 
+def compute_checksum(binaries):
+    assert isinstance(binaries, list)
+
+    result = 0x00
+
+    for data in binaries:
+        result = int(data) ^ result
+
+    return result
+
+
 def XorBinaries(ListOfBinaries):
     bin1 = ListOfBinaries[0]
     for k in range(len(ListOfBinaries) - 1):
         binTemp = ""
         bin2 = ListOfBinaries[k + 1]
         if len(bin1) != len(bin2):
-            print("Cannot compare binaries of different format")
+            raise RuntimeError("Cannot compare binaries of different length")
         else:
             for l in range(len(bin1)):
                 if bin1[l] == bin2[l]:
@@ -43,12 +54,21 @@ def createEightBitBin(int):
     return binString(int).zfill(8)
 
 
-class MessagePacket():
+class MessagePacket(object):
 
-    def __init__(self, ByteArray=[]):
+    def __init__(self, binary_data=[]):
+
+        self._raw = binary_data
+
+        self._checksum = 0
+        self._address = 0
+        self._command_id = 0
+        self._optional_length = 0
+        self._data = []
+
         # initialize the Byte array containing the message packet.
         # empty Array if Message packet is to be created
-        self.ByteArray = ByteArray
+        self.ByteArray = binary_data
         # every element for the message has two different entries( int and bin)
         # should be accessed and written to this order: [Int, Bin]
         self.Header = [None] * 2
@@ -79,6 +99,9 @@ class MessagePacket():
             self.createIntBinArray()
 
     def calculateChecksum(self):
+
+        self._checksum = compute_checksum(self.IntBinArray[1])
+
         self.Checksum[1] = XorBinaries(self.IntBinArray[1])
         self.Checksum[0] = int(self.Checksum[1], 2)
         for k in range(2):
@@ -128,8 +151,8 @@ class MessagePacket():
 
 class ReceivedByteArray(MessagePacket):
 
-    def __init__(self, ByteArray):
-        MessagePacket.__init__(self, ByteArray)
+    def __init__(self, binary_data):
+        MessagePacket.__init__(self, binary_data)
         MessagePacket.splitUpPacket(self)
 
     def extractData(self, DataConfig):
