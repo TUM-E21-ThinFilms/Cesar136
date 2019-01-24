@@ -17,29 +17,7 @@ def compute_checksum(binaries):
     return result
 
 
-def XorBinaries(ListOfBinaries):
-    bin1 = ListOfBinaries[0]
-    for k in range(len(ListOfBinaries) - 1):
-        binTemp = ""
-        bin2 = ListOfBinaries[k + 1]
-        if len(bin1) != len(bin2):
-            raise RuntimeError("Cannot compare binaries of different length")
-        else:
-            for l in range(len(bin1)):
-                if bin1[l] == bin2[l]:
-                    x = "0"
-                else:
-                    x = "1"
-                binTemp += x
-        bin1 = binTemp
-    return binTemp
-
-
-def binString(Integer):
-    return bin(Integer).split("b")[1]
-
-
-def IntToBytearray(Int):
+def intToBytearray(Int):
     result = None
     k = 0
     while result == None:
@@ -50,103 +28,79 @@ def IntToBytearray(Int):
     return result
 
 
-def createEightBitBin(int):
-    return binString(int).zfill(8)
-
-
 class MessagePacket(object):
 
     def __init__(self, binary_data=[]):
 
         self._raw = binary_data
 
+        self._header = 0
         self._checksum = 0
-        self._address = 0
         self._command_id = 0
         self._optional_length = 0
         self._data = []
 
-        # initialize the Byte array containing the message packet.
-        # empty Array if Message packet is to be created
-        self.ByteArray = binary_data
-        # every element for the message has two different entries( int and bin)
-        # should be accessed and written to this order: [Int, Bin]
-        self.Header = [None] * 2
-        self.CommandNumber = [None] * 2
-        self.OptionalLengthByte = [None] * 2
-        self.Checksum = [None] * 2
-        self.IntBinArray = [None] * 2
-        # Data is stored in a byte and a bin array with little endian, first component is the actual int value:
-        # [int,[byte,byte,byte],[bin,bin,bin]
-        self.Data = [None] * 3
-        self.lenData = 0
-        self.DataLong = False
+        self._address = 0
+        self._lenData = 0
+        self._intArray = []
 
     def splitUpPacket(self):
-        if self.ByteArray:
-            self.Header[0] = self.ByteArray.pop(0)
-            self.Header[1] = createEightBitBin(self.Header[0])
-            self.CommandNumber[0] = self.ByteArray.pop(0)  # command number from 0-255
+        if self._raw:
+            self._header = self._raw.pop(0)
+            self.splitHeader()  # splits header into address of Cesar unit and the number of data bytes
+            self._command_id = self._raw.pop(0)  # command number from 0-255
             # if more than 6 Data bytes, the string contains an optional length byte
             # maximum bytes left when no optional length string needed are 7
-            if len(self.ByteArray) > 7:
-                self.DataLong = True
-                self.OptionalLengthByte[0] = self.ByteArray.pop(0)
-            self.Checksum[0] = self.ByteArray.pop()
-            self.lenData = len(self.ByteArray)
-            self.Data[1] = self.ByteArray
-            self.Data[0] = int.from_bytes(self.ByteArray, byteorder="little")
-            self.createIntBinArray()
+            if len(self._raw) > 7:
+                # self.DataLong = True
+                self._optional_length = self._raw.pop(0)
+            self._checksum = self._raw.pop()
+            self._data = [k for k in self._raw]
 
-    def calculateChecksum(self):
+            self.createIntArray()
 
-        self._checksum = compute_checksum(self.IntBinArray[1])
+    def splitHeader(self):
+        self._address = self._header >> 3
+        self._lenData = self._header & 0b111
 
-        self.Checksum[1] = XorBinaries(self.IntBinArray[1])
-        self.Checksum[0] = int(self.Checksum[1], 2)
-        for k in range(2):
-            self.IntBinArray[k].append(self.Checksum[k])
+    def createChecksum(self):
+        self._checksum = compute_checksum(self._intArray)
+        self._intArray.append(self._checksum)
 
-    def createIntBinArray(self):
-        #  due to different structure self.Header bin is calculated in self.createHeader()
-        self.CommandNumber[1] = createEightBitBin(self.CommandNumber[0])
-        for k in range(2):
-            self.IntBinArray[k] = [self.Header[k], self.CommandNumber[k]]
-            if self.DataLong:
-                self.OptionalLengthByte[1] = createEightBitBin(self.OptionalLengthByte[0])
-                self.IntBinArray[k].append(self.OptionalLengthByte[k])
-            if self.lenData != 0:
-                #
-                self.Data[2] = [createEightBitBin(kl) for kl in self.Data[1]]
-                self.IntBinArray[k] += self.Data[k + 1]
+    def createIntArray(self):
+        # all components need to exist before calling this function
+        # self._intArray contains no checksum
+        self._intArray = [self._header, self._command_id]
+        if self._lenData > 6:
+            self._intArray.append(self._optional_length)
+        if self._lenData != 0:
+            self._intArray += self._data
 
     def createHeader(self, datalength, serialnumber):
-        serialBinString = binString(serialnumber).zfill(5)
-        datalengthBinstring = binString(datalength).zfill(3)
-        self.Header[1] = serialBinString + datalengthBinstring
-        self.Header[0] = int(self.Header[1], 2)
+        temp = serialnumber << 3  # shift serialnumber three bits
+        self._header = temp | datalength  # insert datalength to the three bits
 
     def createMessagePacket(self, CommandInput, DataInput=-1):
-        self.CommandNumber[0] = int(CommandInput)
-        self.Data[0] = int(DataInput)
+        self._command_id = CommandInput
         if DataInput != -1:
-            self.Data[1] = IntToBytearray(self.Data[0])
-            # TODO self.lenData auch in Split up
-            self.lenData = len(self.Data[1])
-            if self.lenData > 6:
-                self.DataLong = True
-                self.OptionalLengthByte[0] = self.lenData
+            temp = intToBytearray(DataInput)
+            self._data = [k for k in temp]
+            self._lenData = len(self._data)
+            if self._lenData > 6:
+                self._optional_length = self._lenData
                 self.createHeader(7, CesarSerialNumber)
-        if self.lenData < 7:
-            self.createHeader(self.lenData, CesarSerialNumber)
+        else:
+            self._lenData = 0
+        if self._lenData < 7:
+            self.createHeader(self._lenData, CesarSerialNumber)
         self.assembleMessagePacket()
-        return self.IntBinArray
+        return self._intArray
 
     def assembleMessagePacket(self):
         # assembles every component of the message, calculates the Checksum and
-        self.createIntBinArray()
-        self.calculateChecksum()
-        self.ByteArray = bytearray(self.IntBinArray[0])
+        self.createIntArray()
+        self.createChecksum()
+        self.ByteArray = bytearray(self._intArray[0])
 
 
 class ReceivedByteArray(MessagePacket):
@@ -155,38 +109,33 @@ class ReceivedByteArray(MessagePacket):
         MessagePacket.__init__(self, binary_data)
         MessagePacket.splitUpPacket(self)
 
+    def checkForCompletness(self):
+        tempArray = self._intArray.append(self._checksum)
+        return compute_checksum(tempArray)
+
     def extractData(self, DataConfig):
-        self.formatedData = []
-        self.DataRanges = DataConfig[0]
-        self.DataRangesFormat = DataConfig[1]
+        self._formatedData = []
+        self._DataRanges = DataConfig[0]
+        self._DataRangesFormat = DataConfig[1]
         lastByte = 0
-        for k in range(len(self.DataRanges)):
-            if self.DataRangesFormat[k] == 0:
+        for k in range(len(self._DataRanges)):
+            if self._DataRangesFormat[k] == 0:
                 # data format is an integer
-                data = int.from_bytes(self.Data[1][lastByte:self.DataRanges[k]], byteorder="little")
-            elif self.DataRangesFormat[k] == 1:
+                data = int.from_bytes(self._data[lastByte:self._DataRanges[k]], byteorder="little")
+            elif self._DataRangesFormat[k] == 1:
                 # data format is a certain code
                 pass
-            elif self.DataRangesFormat[k] == 2:
+            elif self._DataRangesFormat[k] == 2:
                 # dataformat is a string
-                data = self.Data[1][lastByte:self.DataRanges[k]].decode()
-            self.formatedData.append(data)
-            lastByte = self.DataRanges[k]
-
-    def checkForCompletness(self):
-        self.Checksum[1] = createEightBitBin(self.Checksum[0])
-        self.IntBinArray[1].append(self.Checksum[1])
-        result = 0
-        XorBin = XorBinaries(self.IntBinArray[1])
-        for r in XorBin:
-            result += int(r)
-        return result
+                data = self._data[lastByte:self._DataRanges[k]].decode()
+            self._formatedData.append(data)
+            lastByte = self._DataRanges[k]
 
     def getCesarAddress(self):
-        # The address of the Unit to talk to and talking to the host is in the 4th to \
-        # 8th bit of the header
-        Binadress = self.Header[1][0:5]
-        return int(Binadress, 2)
+        return self._address
+
+    def getCommandId(self):
+        return self._command_id
 
 # x=MessagePacket()
 # r=x.createMessagePacket(1)

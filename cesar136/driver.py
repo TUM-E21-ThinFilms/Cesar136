@@ -1,6 +1,6 @@
 from cesar import get_transport
 from CeasarCommunication import *
-from commands import *
+from command import *
 
 ser = get_transport()
 CSRCodes = {0: "Command accepted",
@@ -24,8 +24,8 @@ def interactionProcess(Command):
         answer = "Computer received no valid response, try again."
     else:
         if Command.CSRonly:
-            if response.lenData == 1:
-                answer = CSRCodes[response.Data[0]]
+            if response._lenData == 1:
+                answer = CSRCodes[response._data]
             else:
                 answer = "Something must be wrong, CSR contained more data"
         else:
