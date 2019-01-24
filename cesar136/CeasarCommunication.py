@@ -5,6 +5,8 @@
 
 CesarSerialNumber = 1  # defined by the Cesar unit used
 
+from command import *
+
 
 def compute_checksum(binaries):
     assert isinstance(binaries, list)
@@ -17,15 +19,8 @@ def compute_checksum(binaries):
     return result
 
 
-def intToBytearray(Int):
-    result = None
-    k = 0
-    while result == None:
-        try:
-            result = bytearray(Int.to_bytes(k, "little"))
-        except:
-            k += 1
-    return result
+def intToBytearray(Int, NumberOfBytes):
+    return bytearray(Int.to_bytes(NumberOfBytes, "little"))
 
 
 class MessagePacket(object):
@@ -80,17 +75,15 @@ class MessagePacket(object):
         temp = serialnumber << 3  # shift serialnumber three bits
         self._header = temp | datalength  # insert datalength to the three bits
 
-    def createMessagePacket(self, CommandInput, DataInput=-1):
+    def createMessagePacket(self, CommandInput, NumberOfDatabytes, DataInput=-1):
         self._command_id = CommandInput
+        self._lenData = NumberOfDatabytes
         if DataInput != -1:
-            temp = intToBytearray(DataInput)
+            temp = intToBytearray(DataInput, self._lenData)
             self._data = [k for k in temp]
-            self._lenData = len(self._data)
             if self._lenData > 6:
                 self._optional_length = self._lenData
                 self.createHeader(7, CesarSerialNumber)
-        else:
-            self._lenData = 0
         if self._lenData < 7:
             self.createHeader(self._lenData, CesarSerialNumber)
         self.assembleMessagePacket()
@@ -115,21 +108,20 @@ class ReceivedByteArray(MessagePacket):
 
     def extractData(self, DataConfig):
         self._formatedData = []
-        self._DataRanges = DataConfig[0]
-        self._DataRangesFormat = DataConfig[1]
-        lastByte = 0
-        for k in range(len(self._DataRanges)):
-            if self._DataRangesFormat[k] == 0:
-                # data format is an integer
-                data = int.from_bytes(self._data[lastByte:self._DataRanges[k]], byteorder="little")
-            elif self._DataRangesFormat[k] == 1:
-                # data format is a certain code
+        index = 0
+        for config in DataConfig:
+            if type(config) == IntByte or stringByte:
+                tempData = self._data[index:config._numberOfBytes]
+                self._formatedData.append(config.analyze(tempData))
+                index = config._numberOfBytes
+
+            elif type(config) == CodeByte:
+                tempData = self._data[index]
+                self._formatedData.append(config.analyze(tempData))
+                index += 1
+            elif type(config) == BitFlagByte:
+                # TODO do something
                 pass
-            elif self._DataRangesFormat[k] == 2:
-                # dataformat is a string
-                data = self._data[lastByte:self._DataRanges[k]].decode()
-            self._formatedData.append(data)
-            lastByte = self._DataRanges[k]
 
     def getCesarAddress(self):
         return self._address
