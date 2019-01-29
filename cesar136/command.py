@@ -1,8 +1,23 @@
+# Copyright (C) 2019, see AUTHORS.md
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 from CeasarCommunication import MessagePacket
 from CodesnBitFlags import *
 
 
-class stringByte(object):
+class StringData(object):
     def __init__(self, NumberOfBytes):
         self._numberOfBytes = NumberOfBytes
 
@@ -10,7 +25,7 @@ class stringByte(object):
         return bytearray(Intlist, byteorder="little").decode()
 
 
-class IntByte(object):
+class IntegerData(object):
     def __init__(self, NumberOfBytes):
         self._numberOfBytes = NumberOfBytes
 
@@ -18,7 +33,7 @@ class IntByte(object):
         return int.from_bytes(Intlist, byteorder="little")
 
 
-class CodeByte(object):
+class MappingData(object):
     def __init__(self, mapping):
         self._mapping = mapping
 
@@ -28,7 +43,7 @@ class CodeByte(object):
         return self._mapping[DataInt]
 
 
-class BitFlagByte(object):
+class ByteFlagData(object):
     def __init__(self, BitFlagList):  # [RESERVED, RESERVED, RECIPE_IS_ACTIVE, ...]
         self._bitFlagList = BitFlagList
 
@@ -61,16 +76,16 @@ class Command():
 
 turnOutputOff = Command(1, 0, 1)
 
-reportPowerSupplyType = Command(128, 0, 5, [stringByte(5)])
-reportModelNumber = Command(129, 0, 5, [stringByte(5)])
-reportRFRampOnOff = Command(151, 0, 4, [IntByte(2), IntByte(2)])
+reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
+reportModelNumber = Command(129, 0, 5, [StringData(5)])
+reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2), IntegerData(2)])
 
-reportReflectedPowerParameters = Command(152, 0, 3, [IntByte(1), IntByte(2)])
+reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1), IntegerData(2)])
 
-reportRegulationMode = Command(154, 0, 1, [CodeByte({6: FORWARD_POWER,
-                                                     7: LOAD_POWER,
-                                                     8: EXTERNAL_POWER})])
+reportRegulationMode = Command(154, 0, 1, [MappingData({6: FORWARD_POWER,
+                                                        7: LOAD_POWER,
+                                                        8: EXTERNAL_POWER})])
 
-reportActiveControlMode = Command(155, 0, 1, [CodeByte({2: HOST_PORT,
-                                                        4: USER_PORT,
-                                                        6: FRONT_PANEL})])
+reportActiveControlMode = Command(155, 0, 1, [MappingData({2: HOST_PORT,
+                                                           4: USER_PORT,
+                                                           6: FRONT_PANEL})])
