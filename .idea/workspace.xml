@@ -18,7 +18,7 @@
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/cesar136/command.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="634">
+                  <state relative-caret-position="229">
                     <caret line="48" column="27" lean-forward="true" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
                     <folding>
                       <element signature="e#674#728#0" expanded="true" />
@@ -37,8 +37,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cesar136/CeasarCommunication.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+            <state relative-caret-position="500">
+              <caret line="53" column="60" selection-start-line="53" selection-start-column="60" selection-end-line="53" selection-end-column="60" />
+              <folding>
+                <element signature="e#1707#1730#0" />
+                <element signature="e#1766#1785#0" />
+                <element signature="e#1831#1952#0" />
+                <element signature="e#2003#2118#0" />
+                <element signature="e#2167#2293#0" />
+                <element signature="e#2327#2344#0" />
+                <element signature="e#2376#2898#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,8 +67,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cesar136/cesar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="315">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
               <folding>
                 <element signature="e#674#720#0" expanded="true" />
               </folding>
@@ -141,11 +150,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="104" y="27" width="983" height="1173" extended-state="4" />
+    <frame x="67" y="25" width="927" height="1175" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.26548672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
@@ -167,10 +176,20 @@
     <entry file="file://$PROJECT_DIR$/cesar136/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="48" column="27" lean-forward="true" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
+          <folding>
+            <element signature="e#674#728#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/cesar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="315">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
           <folding>
             <element signature="e#674#720#0" expanded="true" />
           </folding>
@@ -187,20 +206,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="48" column="27" lean-forward="true" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-          <folding>
-            <element signature="e#674#728#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/CeasarCommunication.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        <state relative-caret-position="500">
+          <caret line="53" column="60" selection-start-line="53" selection-start-column="60" selection-end-line="53" selection-end-column="60" />
+          <folding>
+            <element signature="e#1707#1730#0" />
+            <element signature="e#1766#1785#0" />
+            <element signature="e#1831#1952#0" />
+            <element signature="e#2003#2118#0" />
+            <element signature="e#2167#2293#0" />
+            <element signature="e#2327#2344#0" />
+            <element signature="e#2376#2898#0" />
+          </folding>
         </state>
       </provider>
     </entry>

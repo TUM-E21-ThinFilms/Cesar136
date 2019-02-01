@@ -51,6 +51,10 @@ class MessagePacket(object):
 
         self._device_id = cesar_device_number
 
+        # create all instances out of binary data if present
+        if self._raw:
+            self.parse_packet(binary_data)
+
     @classmethod
     def from_raw(cls, binary_data):
         return cls(binary_data)
@@ -187,7 +191,6 @@ class ReceivedByteArray(MessagePacket):
 
     def __init__(self, binary_data):
         super(ReceivedByteArray, self).__init__(binary_data)
-        self.parse_packet()
 
     def checkForCompletness(self):
         # returns the xor value for the complete received package
