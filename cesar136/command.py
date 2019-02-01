@@ -36,6 +36,7 @@ class IntegerData(object):
 class MappingData(object):
     def __init__(self, mapping):
         self._mapping = mapping
+        self._numberOfBytes = 1
 
     def analyze(self, DataInt):
         if not DataInt in self._mapping:
@@ -46,6 +47,7 @@ class MappingData(object):
 class ByteFlagData(object):
     def __init__(self, BitFlagList):  # [RESERVED, RESERVED, RECIPE_IS_ACTIVE, ...]
         self._bitFlagList = BitFlagList
+        self._numberOfBytes = 1
 
     def get_flag(self, bit_position):
         pass

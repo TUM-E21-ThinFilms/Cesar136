@@ -200,18 +200,10 @@ class ReceivedByteArray(MessagePacket):
         self._formatedData = []
         index = 0
         for config in DataConfig:
-            if type(config) == IntegerData or StringData:
-                tempData = self._data[index:config._numberOfBytes]
-                self._formatedData.append(config.analyze(tempData))
-                index = config._numberOfBytes
-
-            elif type(config) == MappingData:
-                tempData = self._data[index]
-                self._formatedData.append(config.analyze(tempData))
-                index += 1
-            elif type(config) == ByteFlagData:
-                # TODO do something
-                pass
+            end_Of_Data = index + config._numberOfBytes
+            tempData = self._data[index:end_Of_Data]
+            self._formatedData.append(config.analyze(tempData))
+            index = end_Of_Data
 
     def getCesarAddress(self):
         return self._address
