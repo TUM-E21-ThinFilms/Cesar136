@@ -14,9 +14,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from cesar import get_transport
-from CeasarCommunication import *
-from command import *
+from cesar136.cesar import get_transport
+from cesar136.CeasarCommunication import *
+from cesar136.command import *
 
 ser = get_transport()
 CSRCodes = {0: "Command accepted",

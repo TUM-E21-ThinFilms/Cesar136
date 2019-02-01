@@ -89,7 +89,7 @@ class MessagePacket(object):
             header_data_length = 0b111
             optional_length = data_length
 
-        header = (address << 3) | header_data_length
+        header = (self._address << 3) | header_data_length
 
         raw = [header, self._command_id, optional_length] + self._data
         # remove the optional length byte if it is None
@@ -115,8 +115,7 @@ class MessagePacket(object):
             self._optional_length = data.pop(0)
 
         self._checksum = data.pop()
-        # TODO: is it really necessary to use list comprehensions?
-        # why not: self._data = data?
+        # need for list comprehension in order to store self._data as an int list and not a bytearray
         self._data = [k for k in data]
 
         self.createIntArray()
@@ -144,6 +143,7 @@ class MessagePacket(object):
         if raw is None:
             raw = self._intArray
 
+        # TODO assignment of result needed?
         result = self.xor(raw)
 
         self._checksum = result
@@ -180,8 +180,7 @@ class MessagePacket(object):
         # assembles every component of the message, calculates the Checksum and
         self.createIntArray()
         self.compute_checksum()
-        # TODO: really access just the first element of the intArray?
-        self.ByteArray = bytearray(self._intArray[0])
+        self.ByteArray = bytearray(self._intArray)
 
 
 class ReceivedByteArray(MessagePacket):
@@ -191,23 +190,26 @@ class ReceivedByteArray(MessagePacket):
         self.parse_packet()
 
     def checkForCompletness(self):
-        tempArray = self._intArray.append(self._checksum)
-        return compute_checksum(tempArray)
+        # returns the xor value for the complete received package
+        # using compute_checksum() to append checksum to _intArray
+        # any return other than zero indicates an incomplete message
+        self.compute_checksum()
+        return self.xor(self._intArray)
 
     def extractData(self, DataConfig):
         self._formatedData = []
         index = 0
         for config in DataConfig:
-            if type(config) == IntByte or stringByte:
+            if type(config) == IntegerData or StringData:
                 tempData = self._data[index:config._numberOfBytes]
                 self._formatedData.append(config.analyze(tempData))
                 index = config._numberOfBytes
 
-            elif type(config) == CodeByte:
+            elif type(config) == MappingData:
                 tempData = self._data[index]
                 self._formatedData.append(config.analyze(tempData))
                 index += 1
-            elif type(config) == BitFlagByte:
+            elif type(config) == ByteFlagData:
                 # TODO do something
                 pass
 
