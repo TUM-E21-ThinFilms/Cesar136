@@ -23,7 +23,6 @@ from typing import List
 
 #from cesar136.command import
 
-
 def intToBytearray(Int, NumberOfBytes):
     return bytearray(Int.to_bytes(NumberOfBytes, "little"))
 
@@ -202,17 +201,54 @@ class ReceivedByteArray(MessagePacket):
     def extractData(self, DataConfig):
         self._formatedData = []
         index = 0
+
+        data = ResponseValue()
+
         for config in DataConfig:
             end_Of_Data = index + config._numberOfBytes
             tempData = self._data[index:end_Of_Data]
-            self._formatedData.append(config.analyze(tempData))
+            config.set_data(tempData)
+            data.set_parameter(config) #.analyze(tempData))
+            #self._formatedData.append(config.analyze(tempData))
             index = end_Of_Data
+
+        return data
 
     def getCesarAddress(self):
         return self._address
 
     def getCommandId(self):
         return self._command_id
+
+
+class AbstractData(object):
+    def __init__(self, name=''):
+        self._name = name
+        self._data = None
+
+    def get_name(self):
+        return self._name
+
+    def set_data(self, data):
+        self._data = data
+
+class ResponseValue(object):
+    def __init__(self):
+        self._params = []
+
+    def set_parameter(self, data: AbstractData):
+        self._params.append(data)
+
+    def get_parameter(self, name=''):
+
+        if len(self._params) == 1:
+            return self._params[0]
+
+        for el in self._params:
+            if el.get_name() == name:
+                return el
+
+        raise RuntimeError("Could not find given parameter {}".format(name))
 
 # x=MessagePacket()
 # r=x.createMessagePacket(1)

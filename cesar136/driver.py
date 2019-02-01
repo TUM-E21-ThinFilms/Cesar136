@@ -52,19 +52,19 @@ def interactionProcess(command: Command):
 
 
 def Output_Off():
-    print(interactionProcess(turnOutputOff))
+    return interactionProcess(turnOutputOff)
 
 
 def get_model_number():
-    print(interactionProcess(reportModelNumber))
+    return interactionProcess(reportModelNumber)
 
 
 def get_power_supply_type():
-    print(interactionProcess(reportPowerSupplyType))
+    return interactionProcess(reportPowerSupplyType)
 
 
 def get_RF_ramp_OnOff():
-    print(interactionProcess(reportRFRampOnOff))
+    return interactionProcess(reportRFRampOnOff)
 
 
 def get_reflected_power_parameter():
@@ -77,3 +77,8 @@ def get_regulation_mode():
 
 def get_active_control_mode():
     return interactionProcess(reportActiveControlMode)
+
+
+response = get_power_supply_type()
+response.get_parameter(Parameter.RAMP_OFF).get()
+#response.get_parameter(Parameter.DEINE_MUTTER).get()

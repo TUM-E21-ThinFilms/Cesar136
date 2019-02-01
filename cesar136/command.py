@@ -13,35 +13,42 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from cesar136.CeasarCommunication import MessagePacket
+from cesar136.CeasarCommunication import MessagePacket, AbstractData
 from cesar136.CodesnBitFlags import *
 
 
 # any additional new datatype has to contain the instance _numberOfBytes
 # and the function analyze()
 
-class StringData(object):
-    def __init__(self, NumberOfBytes):
+
+class StringData(AbstractData):
+    def __init__(self, NumberOfBytes, name="irrelevant"):
+        super(StringData, self).__init__(name)
         self._numberOfBytes = NumberOfBytes
+
+    def get(self):
+        return self.analyze(self._data)
 
     def analyze(self, Intlist):
         # get rid of empty bytes
         Intlist = [k for k in Intlist if k != 0]
-        return bytearray(Intlist).decode()
+        return bytearray(Intlist).decode(encoding='ascii')
 
 
-class IntegerData(object):
-    def __init__(self, NumberOfBytes):
+class IntegerData(AbstractData):
+    def __init__(self, NumberOfBytes, name="irrelevant"):
         self._numberOfBytes = NumberOfBytes
+        super(IntegerData, self).__init__(name)
 
     def analyze(self, Intlist):
         return int.from_bytes(Intlist, byteorder="little")
 
 
-class MappingData(object):
-    def __init__(self, mapping):
+class MappingData(AbstractData):
+    def __init__(self, mapping, name="irrelevant"):
         self._mapping = mapping
         self._numberOfBytes = 1
+        super(MappingData, self).__init__(name)
 
     def analyze(self, data):
         # Extract DataInt from data list
@@ -51,13 +58,17 @@ class MappingData(object):
         return self._mapping[DataInt]
 
 
-class ByteFlagData(object):
-    def __init__(self, BitFlagList):  # [RESERVED, RESERVED, RECIPE_IS_ACTIVE, ...]
+class ByteFlagData(AbstractData):
+    def __init__(self, BitFlagList, name="irrelevant"):  # [RESERVED, RESERVED, RECIPE_IS_ACTIVE, ...]
         self._bitFlagList = BitFlagList
         self._numberOfBytes = 1
+        super(ByteFlagData, self).__init__(name)
+
+    def analyze(self, data):
+        return data
 
     def get_flag(self, bit_position):
-        pass
+        return self.get() & (1 << bit_position)
 
 
 class Command():
@@ -88,7 +99,7 @@ turnOutputOff = Command(1, 0, 1)
 
 reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
 reportModelNumber = Command(129, 0, 5, [StringData(5)])
-reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2), IntegerData(2)])
+reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2, Parameter.RAMP_ON), IntegerData(2, Parameter.RAMP_OFF)])
 
 reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1), IntegerData(2)])
 
@@ -99,3 +110,5 @@ reportRegulationMode = Command(154, 0, 1, [MappingData({6: FORWARD_POWER,
 reportActiveControlMode = Command(155, 0, 1, [MappingData({2: HOST_PORT,
                                                            4: USER_PORT,
                                                            6: FRONT_PANEL})])
+
+reportProcessStatus = Command(162, 0, 4, [ByteFlagData([])])

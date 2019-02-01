@@ -13,8 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-RECIPE_IS_ACTIVE = 2
-
 # command 154
 FORWARD_POWER = 6
 LOAD_POWER = 7
@@ -24,3 +22,13 @@ EXTERNAL_POWER = 8
 HOST_PORT =2
 USER_PORT = 4
 FRONT_PANEL = 6
+
+#command 162
+RECIPE_RUN_IS_ACTIVE = 2
+OUTPUT_POWER = 5
+[RESERVERD, UNASSIGNED, RECIPE_RUN_IS_ACTIVE, RESERVED, RESERVED,
+ OUTPUT_POWER, RF_ON_REQUESTED, SET_POINT_TOLERANCE]=list(range(0, 8))
+
+class Parameter(object):
+    RAMP_ON = 'Ramp on'
+    RAMP_OFF = 'Ramp off'
