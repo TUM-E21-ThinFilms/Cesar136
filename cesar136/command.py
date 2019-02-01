@@ -16,6 +16,7 @@
 from cesar136.CeasarCommunication import MessagePacket
 from cesar136.CodesnBitFlags import *
 
+
 # any additional new datatype has to contain the instance _numberOfBytes
 # and the function analyze()
 
@@ -42,7 +43,9 @@ class MappingData(object):
         self._mapping = mapping
         self._numberOfBytes = 1
 
-    def analyze(self, DataInt):
+    def analyze(self, data):
+        # Extract DataInt from data list
+        DataInt = data[0]
         if not DataInt in self._mapping:
             raise ValueError("Ceasar unit returned different value than expected")
         return self._mapping[DataInt]

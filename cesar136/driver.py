@@ -74,5 +74,6 @@ def get_reflected_power_parameter():
 def get_regulation_mode():
     return interactionProcess(reportRegulationMode)
 
+
 def get_active_control_mode():
     return interactionProcess(reportActiveControlMode)
