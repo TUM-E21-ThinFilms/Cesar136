@@ -41,7 +41,8 @@ def interactionProcess(command: Command):
     else:
         if command._CSRonly:
             if response._data_length == 1:
-                answer = CSRCodes[response._data]
+                # _data is list with one element
+                answer = CSRCodes[response._data[0]]
             else:
                 raise ValueError("Something must be wrong, CSR contained more data")
         else:
