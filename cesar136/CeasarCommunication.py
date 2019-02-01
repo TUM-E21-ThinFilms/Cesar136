@@ -21,7 +21,7 @@
 
 from typing import List
 
-from cesar136.command import *
+#from cesar136.command import
 
 
 def intToBytearray(Int, NumberOfBytes):
