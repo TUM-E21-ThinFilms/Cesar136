@@ -16,6 +16,8 @@
 from cesar136.CeasarCommunication import MessagePacket
 from cesar136.CodesnBitFlags import *
 
+# any additional new datatype has to contain the instance _numberOfBytes
+# and the function analyze()
 
 class StringData(object):
     def __init__(self, NumberOfBytes):
@@ -73,7 +75,8 @@ class Command():
                                                                  self._DataBytesToSend,
                                                                  self._data)
         else:
-            self._intArray = MessagePacket().createMessagePacket(self._commandNumber)
+            self._intArray = MessagePacket().createMessagePacket(self._commandNumber,
+                                                                 self._DataBytesToSend)
 
 
 turnOutputOff = Command(1, 0, 1)

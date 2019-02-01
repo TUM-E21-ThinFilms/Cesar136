@@ -37,7 +37,7 @@ def interactionProcess(Command):
     ser.write(bytearray(Command._intArray))
     response = ReceivedByteArray(bytearray(ser.read(10))[1::])
     if response.checkForCompletness() != 0:
-        raise RuntimeError("Computer received no valid response, try again.")
+        raise ValueError("Computer received no valid response, try again.")
     else:
         if Command.CSRonly:
             if response._lenData == 1:
