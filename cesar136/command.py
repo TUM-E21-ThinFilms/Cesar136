@@ -24,7 +24,7 @@ class StringData(object):
         self._numberOfBytes = NumberOfBytes
 
     def analyze(self, Intlist):
-        return bytearray(Intlist, byteorder="little").decode()
+        return bytearray(Intlist).decode()
 
 
 class IntegerData(object):
