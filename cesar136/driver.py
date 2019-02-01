@@ -40,13 +40,13 @@ def interactionProcess(command: Command):
         raise ValueError("Computer received no valid response, try again.")
     else:
         if command._CSRonly:
-            if response._lenData == 1:
+            if response._data_length == 1:
                 answer = CSRCodes[response._data]
             else:
                 raise ValueError("Something must be wrong, CSR contained more data")
         else:
             response.extractData(command._DataConfig)
-            answer = response.formatedData
+            answer = response._formatedData
     return answer
 
 
