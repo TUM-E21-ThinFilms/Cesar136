@@ -24,6 +24,8 @@ class StringData(object):
         self._numberOfBytes = NumberOfBytes
 
     def analyze(self, Intlist):
+        # get rid of empty bytes
+        Intlist = [k for k in Intlist if k != 0]
         return bytearray(Intlist).decode()
 
 
