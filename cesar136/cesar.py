@@ -15,9 +15,9 @@
 
 from e21_util.pvd.transport import Serial
 
-from e21_util.serialports import
+from e21_util.pvd.connection import Connection
+from e21_util.pvd.devices import Devices
 
 
 def get_transport():
-     return Serial('/dev/ttyUSB12', 19200, 8, 'O', 1, 1)
-
+    return Connection().get_transport(Devices.DEVICE_CESAR)
