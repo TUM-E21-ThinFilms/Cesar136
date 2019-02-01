@@ -32,20 +32,20 @@ CSRCodes = {0: "Command accepted",
             99: "Command not accepted (there is no such command)"}
 
 
-def interactionProcess(Command):
-    Command.prepareInteraction()
-    ser.write(bytearray(Command._intArray))
+def interactionProcess(command: Command):
+    command.prepareInteraction()
+    ser.write(bytearray(command._intArray))
     response = ReceivedByteArray(bytearray(ser.read(10))[1::])
     if response.checkForCompletness() != 0:
         raise ValueError("Computer received no valid response, try again.")
     else:
-        if Command.CSRonly:
+        if command._CSRonly:
             if response._lenData == 1:
                 answer = CSRCodes[response._data]
             else:
                 raise ValueError("Something must be wrong, CSR contained more data")
         else:
-            response.extractData(Command.DataConfig)
+            response.extractData(command._DataConfig)
             answer = response.formatedData
     return answer
 
