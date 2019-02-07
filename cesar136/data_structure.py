@@ -99,4 +99,4 @@ class ByteFlagData(AbstractData):
         self.set_data(data)
 
     def get_flag(self, bit_position):
-        return self.get() & (1 << bit_position)
+        return self.get()[0] & (1 << bit_position)
