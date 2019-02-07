@@ -79,6 +79,6 @@ def get_active_control_mode():
     return interactionProcess(reportActiveControlMode)
 
 
-response = get_power_supply_type()
-response.get_parameter(Parameter.RAMP_OFF).get()
+# response = get_power_supply_type()
+# response.get_parameter(Parameter.RAMP_OFF).get()
 #response.get_parameter(Parameter.DEINE_MUTTER).get()
