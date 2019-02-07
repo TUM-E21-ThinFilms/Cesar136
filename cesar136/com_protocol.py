@@ -15,7 +15,7 @@
 
 
 from cesar136.cesar import get_transport
-from cesar136.CeasarCommunication import *
+from cesar136.raw_message_packet import *
 from cesar136.command import *
 
 ser = get_transport()
@@ -35,6 +35,7 @@ CSRCodes = {0: "Command accepted",
 def interactionProcess(command: Command):
     command.prepareInteraction()
     ser.write(bytearray(command._intArray))
+    # no valuable information in first byte
     response = ReceivedByteArray(bytearray(ser.read(10))[1::])
     if response.checkForCompletness() != 0:
         raise ValueError("Computer received no valid response, try again.")
