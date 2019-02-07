@@ -34,9 +34,9 @@ class ResponseFormat(object):
         self._params.append(data)
 
     def get_parameter(self, name=''):
-
+    # TODO leave out ._data if the String/ Int/ Mapping / Bit object is desired to be the output format
         if len(self._params) == 1:
-            return self._params[0]
+            return self._params[0]._data
 
         for el in self._params:
             if el.get_name() == name:

@@ -46,9 +46,12 @@ turnOutputOff = Command(1, 0, 1)
 
 reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
 reportModelNumber = Command(129, 0, 5, [StringData(5)])
-reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2, Parameter.RAMP_ON), IntegerData(2, Parameter.RAMP_OFF)])
+reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2, Parameter.RAMP_ON),
+                                        IntegerData(2, Parameter.RAMP_OFF)])
 
-reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1), IntegerData(2)])
+
+reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1,Parameter.TIME_LIMIT_RF_TURN_OFF),
+                                                     IntegerData(2,Parameter.POWER_LIMIT_TRIGGER)])
 
 reportRegulationMode = Command(154, 0, 1, [MappingData({6: FORWARD_POWER,
                                                         7: LOAD_POWER,

@@ -30,5 +30,10 @@ OUTPUT_POWER = 5
  OUTPUT_POWER, RF_ON_REQUESTED, SET_POINT_TOLERANCE]=list(range(0, 8))
 
 class Parameter(object):
+    # command 151
     RAMP_ON = 'Ramp on'
     RAMP_OFF = 'Ramp off'
+
+    # command 152
+    TIME_LIMIT_RF_TURN_OFF = "time limit until RF is turned off"
+    POWER_LIMIT_TRIGGER = "Power limit trigger"
