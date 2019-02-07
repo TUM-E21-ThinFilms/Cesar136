@@ -38,7 +38,7 @@ class ResponseFormat(object):
     def get_parameter(self, name=''):
         if len(self._params) == 1:
             return self._params[0]
-            
+
         for el in self._params:
             if type(el) == ByteFlagData:
                 if type(name) != tuple:
@@ -96,7 +96,7 @@ class ByteFlagData(AbstractData):
         super(ByteFlagData, self).__init__(name)
 
     def analyze(self, data):
-        return data
+        self.set_data(data)
 
     def get_flag(self, bit_position):
         return self.get() & (1 << bit_position)
