@@ -53,12 +53,12 @@ reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2, Parameter.RAMP_ON),
 reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1,Parameter.TIME_LIMIT_RF_TURN_OFF),
                                                      IntegerData(2,Parameter.POWER_LIMIT_TRIGGER)])
 
-reportRegulationMode = Command(154, 0, 1, [MappingData({6: FORWARD_POWER,
-                                                        7: LOAD_POWER,
-                                                        8: EXTERNAL_POWER})])
+reportRegulationMode = Command(154, 0, 1, [MappingData({6: Parameter.FORWARD_POWER,
+                                                        7: Parameter.LOAD_POWER,
+                                                        8: Parameter.EXTERNAL_POWER})])
 
-reportActiveControlMode = Command(155, 0, 1, [MappingData({2: HOST_PORT,
-                                                           4: USER_PORT,
-                                                           6: FRONT_PANEL})])
+reportActiveControlMode = Command(155, 0, 1, [MappingData({2: Parameter.HOST_PORT,
+                                                           4: Parameter.USER_PORT,
+                                                           6: Parameter.FRONT_PANEL})])
 
-reportProcessStatus = Command(162, 0, 4, [ByteFlagData([])])
+reportProcessStatus = Command(162, 0, 4, [ByteFlagData()]*4)

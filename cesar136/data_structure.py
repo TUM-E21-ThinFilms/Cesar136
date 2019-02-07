@@ -25,6 +25,8 @@ class AbstractData(object):
     def set_data(self, data):
         self._data = data
 
+    def get(self):
+        return self._data
 
 class ResponseFormat(object):
     def __init__(self):
@@ -34,13 +36,18 @@ class ResponseFormat(object):
         self._params.append(data)
 
     def get_parameter(self, name=''):
-    # TODO leave out ._data if the String/ Int/ Mapping / Bit object is desired to be the output format
         if len(self._params) == 1:
-            return self._params[0]._data
+            return self._params[0]
 
-        for el in self._params:
-            if el.get_name() == name:
-                return el._data
+        if type(self) == ByteFlagData:
+            if type(name)!= tuple:
+                raise ValueError("Wrong parameter for Byteflag data")
+            else:
+                return self._params[name[0]].get_flag(name[1])
+        else:
+            for el in self._params:
+                if el.get_name() == name:
+                    return el
 
         raise RuntimeError("Could not find given parameter {}".format(name))
 
@@ -84,8 +91,8 @@ class MappingData(AbstractData):
 
 
 class ByteFlagData(AbstractData):
-    def __init__(self, BitFlagList, name="irrelevant"):  # [RESERVED, RESERVED, RECIPE_IS_ACTIVE, ...]
-        self._bitFlagList = BitFlagList
+    def __init__(self, name="irrelevant"):
+        #self._bitFlagList = BitFlagList
         self._numberOfBytes = 1
         super(ByteFlagData, self).__init__(name)
 

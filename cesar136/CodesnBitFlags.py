@@ -13,21 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# command 154
-FORWARD_POWER = 6
-LOAD_POWER = 7
-EXTERNAL_POWER = 8
-
-# command 155
-HOST_PORT =2
-USER_PORT = 4
-FRONT_PANEL = 6
-
-#command 162
-RECIPE_RUN_IS_ACTIVE = 2
-OUTPUT_POWER = 5
-[RESERVERD, UNASSIGNED, RECIPE_RUN_IS_ACTIVE, RESERVED, RESERVED,
- OUTPUT_POWER, RF_ON_REQUESTED, SET_POINT_TOLERANCE]=list(range(0, 8))
 
 class Parameter(object):
     # command 151
@@ -37,3 +22,35 @@ class Parameter(object):
     # command 152
     TIME_LIMIT_RF_TURN_OFF = "time limit until RF is turned off"
     POWER_LIMIT_TRIGGER = "Power limit trigger"
+
+    # command 154
+    FORWARD_POWER = 6
+    LOAD_POWER = 7
+    EXTERNAL_POWER = 8
+
+    # command 155
+    HOST_PORT = 2
+    USER_PORT = 4
+    FRONT_PANEL = 6
+
+    # command 162
+    # byte 0
+    RECIPE_RUN_ACTIVE = (0,2)
+    OUTPUT_POWER = (0,5)
+    RF_ON_REQUESTED = (0,6)
+    SET_POINT_TOLERANCE = (0,7)
+
+    # byte 1
+    END_OF_TARGET_LIFE = (1,0)
+    OVERTEMPERATURE_FAULT = (1,3)
+    INTERLOCK = (1,7)
+
+    #byte 2 and 3 reserved
+    #byte 4
+    DC_CURRENT_LIMIT_WARNING = (4,0)
+    PROFIBUS_ERROR = (4,2)
+    FAULT_PRESENT = (4,5)
+    CEX_IS_LOCKED = (4,7)
+
+
+
