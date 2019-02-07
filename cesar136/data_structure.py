@@ -40,7 +40,7 @@ class ResponseFormat(object):
 
         for el in self._params:
             if el.get_name() == name:
-                return el
+                return el._data
 
         raise RuntimeError("Could not find given parameter {}".format(name))
 

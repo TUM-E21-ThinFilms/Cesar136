@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20f746fc-3f2b-4fa8-a899-980e2ca75803" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cesar136/com_protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/com_protocol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cesar136/data_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/data_structure.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +23,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cesar136/received_message_packet.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="660">
@@ -35,7 +35,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="510">
@@ -48,10 +48,10 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cesar136/com_protocol.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="871">
+                <state relative-caret-position="1006">
                   <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
                   <folding>
                     <element signature="e#675#715#0" expanded="true" />
@@ -60,11 +60,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cesar136/data_structure.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="226">
-                  <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
+                <state relative-caret-position="585">
+                  <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
                 </state>
               </provider>
             </entry>
@@ -103,9 +103,9 @@
         <option value="$PROJECT_DIR$/cesar136/CeasarCommunication.py" />
         <option value="$PROJECT_DIR$/cesar136/command.py" />
         <option value="$PROJECT_DIR$/cesar136/raw_message_packet.py" />
-        <option value="$PROJECT_DIR$/cesar136/data_structure.py" />
         <option value="$PROJECT_DIR$/cesar136/received_message_packet.py" />
         <option value="$PROJECT_DIR$/cesar136/com_protocol.py" />
+        <option value="$PROJECT_DIR$/cesar136/data_structure.py" />
       </list>
     </option>
   </component>
@@ -219,13 +219,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/data_structure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/command.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="615">
@@ -236,10 +229,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
+    <entry file="file://$PROJECT_DIR$/cesar136/com_protocol.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="1006">
+          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
+          <folding>
+            <element signature="e#675#715#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -253,13 +249,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/com_protocol.py">
+    <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="871">
-          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
-          <folding>
-            <element signature="e#675#715#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="510">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/data_structure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
         </state>
       </provider>
     </entry>
