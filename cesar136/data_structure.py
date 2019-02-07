@@ -38,16 +38,15 @@ class ResponseFormat(object):
     def get_parameter(self, name=''):
         if len(self._params) == 1:
             return self._params[0]
-
-        if type(self) == ByteFlagData:
-            if type(name)!= tuple:
-                raise ValueError("Wrong parameter for Byteflag data")
-            else:
-                return self._params[name[0]].get_flag(name[1])
-        else:
-            for el in self._params:
-                if el.get_name() == name:
-                    return el
+            
+        for el in self._params:
+            if type(el) == ByteFlagData:
+                if type(name) != tuple:
+                    raise ValueError("Wrong parameter for Byteflag data")
+                else:
+                    return self._params[name[0]].get_flag(name[1])
+            if el.get_name() == name:
+                return el
 
         raise RuntimeError("Could not find given parameter {}".format(name))
 
