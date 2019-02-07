@@ -37,12 +37,11 @@ class ReceivedByteArray(MessagePacket):
         for config in DataConfig:
             end_Of_Data = index + config._numberOfBytes
             tempData = self._data[index:end_Of_Data]
-            config.set_data(tempData)
-            data.set_parameter(config)  # .analyze(tempData))
-            # self._formatedData.append(config.analyze(tempData))
+            config.analyze(tempData)
+            self._formatedData.set_parameter(config)
             index = end_Of_Data
 
-        return data
+        return self._formatedData
 
     def getCesarAddress(self):
         return self._address

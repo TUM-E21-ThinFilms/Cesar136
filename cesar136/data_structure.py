@@ -53,13 +53,10 @@ class StringData(AbstractData):
         super(StringData, self).__init__(name)
         self._numberOfBytes = NumberOfBytes
 
-    def get(self):
-        return self.analyze(self._data)
-
     def analyze(self, Intlist):
         # get rid of empty bytes
         Intlist = [k for k in Intlist if k != 0]
-        return bytearray(Intlist).decode(encoding='ascii')
+        self.set_data(bytearray(Intlist).decode(encoding='ascii'))
 
 
 class IntegerData(AbstractData):
@@ -68,7 +65,7 @@ class IntegerData(AbstractData):
         super(IntegerData, self).__init__(name)
 
     def analyze(self, Intlist):
-        return int.from_bytes(Intlist, byteorder="little")
+        self.set_data(int.from_bytes(Intlist, byteorder="little"))
 
 
 class MappingData(AbstractData):
@@ -82,7 +79,8 @@ class MappingData(AbstractData):
         DataInt = data[0]
         if not DataInt in self._mapping:
             raise ValueError("Ceasar unit returned different value than expected")
-        return self._mapping[DataInt]
+        #TODO check datacalculation and handling
+        self.set_data(self._mapping[DataInt])
 
 
 class ByteFlagData(AbstractData):

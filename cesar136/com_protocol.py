@@ -15,7 +15,7 @@
 
 
 from cesar136.cesar import get_transport
-from cesar136.raw_message_packet import *
+from cesar136.received_message_packet import ReceivedByteArray
 from cesar136.command import *
 
 ser = get_transport()
@@ -36,19 +36,18 @@ def interactionProcess(command: Command):
     command.prepareInteraction()
     ser.write(bytearray(command._intArray))
     # no valuable information in first byte
-    response = ReceivedByteArray(bytearray(ser.read(10))[1::])
-    if response.checkForCompletness() != 0:
+    raw_response = ReceivedByteArray(bytearray(ser.read(10))[1::])
+    if raw_response.checkForCompletness() != 0:
         raise ValueError("Computer received no valid response, try again.")
     else:
         if command._CSRonly:
-            if response._data_length == 1:
+            if raw_response._data_length == 1:
                 # _data is list with one element
-                answer = CSRCodes[response._data[0]]
+                answer = CSRCodes[raw_response._data[0]]
             else:
                 raise ValueError("Something must be wrong, CSR contained more data")
         else:
-            response.extractData(command._DataConfig)
-            answer = response._formatedData
+            answer = raw_response.extractData(command._DataConfig)
     return answer
 
 
