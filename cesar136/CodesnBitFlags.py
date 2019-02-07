@@ -35,22 +35,40 @@ class Parameter(object):
 
     # command 162
     # byte 0
-    RECIPE_RUN_ACTIVE = (0,2)
-    OUTPUT_POWER = (0,5)
-    RF_ON_REQUESTED = (0,6)
-    SET_POINT_TOLERANCE = (0,7)
+    RECIPE_RUN_ACTIVE = (0, 2)
+    OUTPUT_POWER = (0, 5)
+    RF_ON_REQUESTED = (0, 6)
+    SET_POINT_TOLERANCE = (0, 7)
 
     # byte 1
-    END_OF_TARGET_LIFE = (1,0)
-    OVERTEMPERATURE_FAULT = (1,3)
-    INTERLOCK = (1,7)
+    END_OF_TARGET_LIFE = (1, 0)
+    OVERTEMPERATURE_FAULT = (1, 3)
+    INTERLOCK = (1, 7)
 
-    #byte 2 and 3 reserved
-    #byte 4
-    DC_CURRENT_LIMIT_WARNING = (4,0)
-    PROFIBUS_ERROR = (4,2)
-    FAULT_PRESENT = (4,5)
-    CEX_IS_LOCKED = (4,7)
+    # byte 2 and 3 reserved
+    # byte 4
+    DC_CURRENT_LIMIT_WARNING = (4, 0)
+    PROFIBUS_ERROR = (4, 2)
+    FAULT_PRESENT = (4, 5)
+    CEX_IS_LOCKED = (4, 7)
 
+    # command 164
+    SET_POINT_VALUE = "set point value in W or V"
+    # same output as 154 for byte 3
 
+    # command 212
+    AE_BUS_ADRESS = "AE_BUS adress always 1"
+    BAUD_RATE = "Baud rate returns 0 for 115200"
 
+    # command 223
+    # byte 0
+    INTERLOCK_LOOP_OPEN = (0, 0)
+    SMPS_TEMP_TOO_HIGH = (0, 1)
+    RF_GENERATOR_TEMPERATURE_TOO_HIGH = (0, 2)
+    RF_POWER_SECTION_FAILURE = (0, 4)
+    AD_CONVERSION_FAILURE = (0, 5)
+    #byte 1
+    EXTERNAL_PULSE_TOO_SHORT = (1, 1)
+    RF_ON_TIME_EXCEEDED = (1, 2)
+    SOFTWARE_ERROR = (1, 6)
+    # byte 3 and 4 are unassigned

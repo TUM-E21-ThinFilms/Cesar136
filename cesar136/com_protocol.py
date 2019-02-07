@@ -32,7 +32,9 @@ CSRCodes = {0: "Command accepted",
             99: "Command not accepted (there is no such command)"}
 
 
-def interactionProcess(command: Command):
+def interactionProcess(command: Command, data=None):
+    if data:
+        command.set_data(data)
     command.prepareInteraction()
     ser.write(bytearray(command._intArray))
     # no valuable information in first byte
@@ -50,33 +52,6 @@ def interactionProcess(command: Command):
             answer = raw_response.extractData(command._DataConfig)
     return answer
 
-
-def Output_Off():
-    return interactionProcess(turnOutputOff)
-
-
-def get_model_number():
-    return interactionProcess(reportModelNumber)
-
-
-def get_power_supply_type():
-    return interactionProcess(reportPowerSupplyType)
-
-
-def get_RF_ramp_OnOff():
-    return interactionProcess(reportRFRampOnOff)
-
-
-def get_reflected_power_parameter():
-    return interactionProcess(reportReflectedPowerParameters)
-
-
-def get_regulation_mode():
-    return interactionProcess(reportRegulationMode)
-
-
-def get_active_control_mode():
-    return interactionProcess(reportActiveControlMode)
 
 
 # response = get_power_supply_type()
