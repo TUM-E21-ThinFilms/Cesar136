@@ -42,7 +42,7 @@ def interactionProcess(command: Command, data=None):
     if raw_response.checkForCompletness() != 0:
         raise ValueError("Computer received no valid response, try again.")
     else:
-        probableCSR = raw_response._data_length != command._DataBytesExpected
+        probableCSR = 1 ==raw_response._data_length != command._DataBytesExpected
         if command._CSRonly or probableCSR:
             if raw_response._data_length == 1:
                 # _data is list with one element
