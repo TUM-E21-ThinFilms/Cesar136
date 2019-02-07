@@ -28,6 +28,7 @@ class AbstractData(object):
     def get(self):
         return self._data
 
+
 class ResponseFormat(object):
     def __init__(self):
         self._params = []
@@ -84,14 +85,14 @@ class MappingData(AbstractData):
         # Extract DataInt from data list
         DataInt = data[0]
         if not DataInt in self._mapping:
+            #TODO maybe it is a CSR code if it doesnt fit the mapping
             raise ValueError("Ceasar unit returned different value than expected")
-        #TODO check datacalculation and handling
         self.set_data(self._mapping[DataInt])
 
 
 class ByteFlagData(AbstractData):
     def __init__(self, name="irrelevant"):
-        #self._bitFlagList = BitFlagList
+        # self._bitFlagList = BitFlagList
         self._numberOfBytes = 1
         super(ByteFlagData, self).__init__(name)
 

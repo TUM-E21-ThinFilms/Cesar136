@@ -67,7 +67,7 @@ class Parameter(object):
     RF_GENERATOR_TEMPERATURE_TOO_HIGH = (0, 2)
     RF_POWER_SECTION_FAILURE = (0, 4)
     AD_CONVERSION_FAILURE = (0, 5)
-    #byte 1
+    # byte 1
     EXTERNAL_PULSE_TOO_SHORT = (1, 1)
     RF_ON_TIME_EXCEEDED = (1, 2)
     SOFTWARE_ERROR = (1, 6)

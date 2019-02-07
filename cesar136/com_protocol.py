@@ -16,7 +16,7 @@
 
 from cesar136.cesar import get_transport
 from cesar136.received_message_packet import ReceivedByteArray
-from cesar136.command import *
+from cesar136.command import Command
 
 ser = get_transport()
 CSRCodes = {0: "Command accepted",
@@ -42,7 +42,8 @@ def interactionProcess(command: Command, data=None):
     if raw_response.checkForCompletness() != 0:
         raise ValueError("Computer received no valid response, try again.")
     else:
-        if command._CSRonly:
+        probableCSR = raw_response._data_length != command._DataBytesExpected
+        if command._CSRonly or probableCSR:
             if raw_response._data_length == 1:
                 # _data is list with one element
                 answer = CSRCodes[raw_response._data[0]]
@@ -52,8 +53,6 @@ def interactionProcess(command: Command, data=None):
             answer = raw_response.extractData(command._DataConfig)
     return answer
 
-
-
 # response = get_power_supply_type()
-#response.get_parameter(Parameter.RAMP_OFF).get()
-#response.get_parameter(Parameter.DEINE_MUTTER).get()
+# response.get_parameter(Parameter.RAMP_OFF).get()
+# response.get_parameter(Parameter.DEINE_MUTTER).get()
