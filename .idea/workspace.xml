@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="20f746fc-3f2b-4fa8-a899-980e2ca75803" name="Default Changelist" comment="" />
+    <list default="true" id="20f746fc-3f2b-4fa8-a899-980e2ca75803" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/cesar136/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/functions.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -9,13 +11,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.27595627">
+    <splitter split-orientation="horizontal" split-proportion="0.37733036">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cesar136/raw_message_packet.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="826">
+                <state relative-caret-position="422">
                   <caret line="188" selection-start-line="188" selection-end-line="188" />
                 </state>
               </provider>
@@ -33,7 +35,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="240">
@@ -45,7 +47,7 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="horizontal" split-proportion="0.509434">
+        <splitter split-orientation="horizontal" split-proportion="0.56127703">
           <split-first>
             <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
               <file pinned="false" current-in-tab="false">
@@ -60,8 +62,8 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/cesar136/functions.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="405">
-                      <caret line="27" selection-start-line="27" selection-end-line="27" />
+                    <state relative-caret-position="390">
+                      <caret line="26" column="62" selection-start-line="26" selection-start-column="62" selection-end-line="26" selection-end-column="62" />
                       <folding>
                         <element signature="e#674#726#0" expanded="true" />
                       </folding>
@@ -72,8 +74,8 @@
               <file pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/cesar136/command.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="421">
-                      <caret line="59" column="63" lean-forward="true" selection-start-line="59" selection-start-column="63" selection-end-line="59" selection-end-column="63" />
+                    <state relative-caret-position="376">
+                      <caret line="86" column="27" selection-start-line="86" selection-end-line="86" selection-end-column="27" />
                       <folding>
                         <element signature="e#674#727#0" expanded="true" />
                       </folding>
@@ -120,11 +122,11 @@
         <option value="$PROJECT_DIR$/cesar136/CeasarCommunication.py" />
         <option value="$PROJECT_DIR$/cesar136/raw_message_packet.py" />
         <option value="$PROJECT_DIR$/cesar136/received_message_packet.py" />
-        <option value="$PROJECT_DIR$/cesar136/functions.py" />
-        <option value="$PROJECT_DIR$/cesar136/command.py" />
         <option value="$PROJECT_DIR$/cesar136/data_structure.py" />
         <option value="$PROJECT_DIR$/cesar136/com_protocol.py" />
         <option value="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" />
+        <option value="$PROJECT_DIR$/cesar136/command.py" />
+        <option value="$PROJECT_DIR$/cesar136/functions.py" />
       </list>
     </option>
   </component>
@@ -197,7 +199,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="613" y="25" width="1307" height="1175" extended-state="4" />
+    <frame x="556" y="25" width="1364" height="1175" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.22851562" />
@@ -213,7 +215,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.3298279" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3298279" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.3298279" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -236,23 +238,6 @@
           <caret line="21" selection-start-line="21" selection-end-line="21" />
           <folding>
             <element signature="e#674#720#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/raw_message_packet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="826">
-          <caret line="188" selection-start-line="188" selection-end-line="188" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/received_message_packet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
-          <folding>
-            <element signature="e#675#728#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -281,10 +266,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/received_message_packet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
+          <folding>
+            <element signature="e#675#728#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/raw_message_packet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="188" selection-start-line="188" selection-end-line="188" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/command.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="59" column="63" lean-forward="true" selection-start-line="59" selection-start-column="63" selection-end-line="59" selection-end-column="63" />
+        <state relative-caret-position="376">
+          <caret line="86" column="27" selection-start-line="86" selection-end-line="86" selection-end-column="27" />
           <folding>
             <element signature="e#674#727#0" expanded="true" />
           </folding>
@@ -293,8 +295,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="390">
+          <caret line="26" column="62" selection-start-line="26" selection-start-column="62" selection-end-line="26" selection-end-column="62" />
           <folding>
             <element signature="e#674#726#0" expanded="true" />
           </folding>

@@ -22,7 +22,9 @@ def Output_Off():
     return interactionProcess(turnOutputOff)
 
 
-# command
+# command 33
+def set_reflect_pow_params(data):
+    return interactionProcess(setReflectedPowerParameters,data)
 
 
 
