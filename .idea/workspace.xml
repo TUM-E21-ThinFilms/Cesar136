@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20f746fc-3f2b-4fa8-a899-980e2ca75803" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cesar136/com_protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/com_protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cesar136/data_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/data_structure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,7 +23,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cesar136/received_message_packet.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="300">
@@ -36,11 +35,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="390">
-                  <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+                <state relative-caret-position="240">
+                  <caret line="16" column="64" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="64" />
                 </state>
               </provider>
             </entry>
@@ -51,11 +50,11 @@
         <splitter split-orientation="horizontal" split-proportion="0.509434">
           <split-first>
             <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-              <file pinned="false" current-in-tab="true">
+              <file pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/cesar136/data_structure.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="210">
-                      <caret line="14" selection-start-line="14" selection-end-line="14" />
+                    <state relative-caret-position="60">
+                      <caret line="4" column="67" lean-forward="true" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="67" />
                     </state>
                   </provider>
                 </entry>
@@ -72,11 +71,11 @@
                   </provider>
                 </entry>
               </file>
-              <file pinned="false" current-in-tab="false">
+              <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/cesar136/command.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="571">
-                      <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+                    <state relative-caret-position="646">
+                      <caret line="74" column="31" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
                       <folding>
                         <element signature="e#674#727#0" expanded="true" />
                       </folding>
@@ -124,10 +123,10 @@
         <option value="$PROJECT_DIR$/cesar136/raw_message_packet.py" />
         <option value="$PROJECT_DIR$/cesar136/received_message_packet.py" />
         <option value="$PROJECT_DIR$/cesar136/functions.py" />
-        <option value="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" />
         <option value="$PROJECT_DIR$/cesar136/command.py" />
         <option value="$PROJECT_DIR$/cesar136/data_structure.py" />
         <option value="$PROJECT_DIR$/cesar136/com_protocol.py" />
+        <option value="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" />
       </list>
     </option>
   </component>
@@ -250,13 +249,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/received_message_packet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -277,23 +269,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
-          <folding>
-            <element signature="e#674#727#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/data_structure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/com_protocol.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -301,6 +276,30 @@
           <folding>
             <element signature="e#675#715#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/data_structure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="67" lean-forward="true" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="74" column="31" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
+          <folding>
+            <element signature="e#674#727#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="64" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="64" />
         </state>
       </provider>
     </entry>

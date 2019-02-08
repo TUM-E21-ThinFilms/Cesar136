@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class InputParam():
-    def __init__(self, information,position , length ,range = None):
+    def __init__(self, information,position , length ,range = ()):
         self._information = information
         self._postion = position
         self._byte_length = length
