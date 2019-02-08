@@ -21,17 +21,17 @@ class InputParam():
         self._range = range
 
 #command 14
-ActiveControlmode = InputParam("accepts values from "
-                               "2, Host Port"
-                               "4, User Port"
-                               "6, Front Panel"
-                               "10, Reset Front Panel display"
-                               "11, Disable front panel program menu presets"
-                               "12, disable all front panel functions except display soft key"
-                               "13, Diable all front panel functions"
-                               "20, Reset front panel display"
-                               "22, Set front panel display to show only ready, active, error"
-                               "23, Turn off front panel display",
+ActiveControlmode = InputParam("accepts values from \n"
+                               "2, Host Port\n"
+                               "4, User Port\n"
+                               "6, Front Panel\n"
+                               "10, Reset Front Panel display\n"
+                               "11, Disable front panel program menu presets\n"
+                               "12, disable all front panel functions except display soft key\n"
+                               "13, Diable all front panel functions\n"
+                               "20, Reset front panel display\n"
+                               "22, Set front panel display to show only ready, active, error\n"
+                               "23, Turn off front panel display\n",
                                0,1,(2,4,6,10,11,12,13,20,22,23))
 
 # command 33
