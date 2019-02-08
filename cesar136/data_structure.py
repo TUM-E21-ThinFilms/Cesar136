@@ -12,7 +12,18 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from cesar136.com_protocol import CSRCodes
+
+CSRCodes = {0: "Command accepted",
+            1: "Control code is incorrect",
+            2: "Output is on (change not allowed)",
+            4: "Data is out of range",
+            7: "Active fault(s) exist",
+            9: "Data byte count is incorrect",
+            19: "Recipe is active (change not allowed)",
+            50: "The frequency is out of range",
+            51: "The duty cycle is out of range",
+            53: "The device controlled by the command is not detected",
+            99: "Command not accepted (there is no such command)"}
 
 
 class AbstractData(object):
