@@ -84,7 +84,12 @@ class Command():
 
 turnOutputOff = Command(1, 0, 1)
 
+#command 14
+setActiveControlMode = Command(14,1,1,[ActiveControlmode])
+
+# command 33
 setReflectedPowerParameters = Command(33,3,1,[SecondsToRFTurnOff,PowerLimitTriggerInW])
+
 
 
 reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
