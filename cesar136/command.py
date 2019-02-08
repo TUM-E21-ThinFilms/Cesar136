@@ -38,10 +38,11 @@ class Command():
                     self._DataInput.append(self._DataConfig.pop(0))
                 except:
                     break
-            self._dataArray = []
+
 
     def set_data(self, data):
         # command is used to set data as ._DataInput defines it
+        self._dataArray = []
         if len(data) != len(self._DataInput):
             raise ValueError("Not enough or too many input parameters. Input as [data1,data2]")
         for inputFormat, daten in zip(self._DataInput, data):
