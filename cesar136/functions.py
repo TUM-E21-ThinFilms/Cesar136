@@ -22,6 +22,12 @@ def Output_Off():
     return interactionProcess(turnOutputOff)
 
 
+# command
+
+
+
+
+
 # command 128
 def get_power_supply_type():
     return interactionProcess(reportPowerSupplyType)

@@ -27,10 +27,49 @@ class Command():
             self._CSRonly = True
         else:
             self._CSRonly = False
-            self._DataConfig = DataConfig
+        self._DataConfig = DataConfig
+
+        if self._DataBytesToSend > 0:
+            self._DataInput = []
+            sendByteCount = 0
+            while sendByteCount<self._DataBytesToSend:
+                try:
+                    sendByteCount+=self._DataConfig[0]._byte_length
+                    self._DataInput.append(self._DataConfig.pop(0))
+                except:
+                    break
+            self._dataArray = []
 
     def set_data(self, data):
-        self._data = data
+        # command is used to set data as ._DataInput defines it
+        if len(data) != len(self._DataInput):
+            raise ValueError("Not enough or too many input parameters. Input as [data1,data2]")
+        for inputFormat, daten in zip(self._DataInput, data):
+            if isinstance(daten, tuple):
+                # not usually the case. command 29 requires bitwise input and
+                # daten should be a tuple of all the bits to set to 1
+                # -> convert daten to an integer
+                temp = 0
+                for kl in daten:
+                    temp += 1 << kl
+                daten = temp
+
+            if len(inputFormat._range) == 2:
+                # range consists of upper and lower boundary values
+                if not daten in range(inputFormat._range[0], inputFormat._range[1]):
+                    raise ValueError("input data is not allowed for this parameter. {}".format(
+                        inputFormat._information))
+            elif inputFormat._range:
+                # range is a tuple of allowed values
+                if not daten in inputFormat._range:
+                    raise ValueError("input data is not allowed for this parameter. {}".format(
+                        inputFormat._information))
+            else:
+                # range can not be easily specified accept all values...
+                pass
+            self._dataArray += daten.to_bytes(inputFormat._byte_length, byteorder="little")
+
+        self._data = int.from_bytes(self._dataArray, byteorder="little")
 
     def prepareInteraction(self):
         if self._DataBytesToSend != 0:
@@ -43,6 +82,9 @@ class Command():
 
 
 turnOutputOff = Command(1, 0, 1)
+
+setReflectedPowerParameters = Command(33,3,1,[SecondsToRFTurnOff,PowerLimitTriggerInW])
+
 
 reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
 reportModelNumber = Command(129, 0, 5, [StringData(5)])
@@ -77,7 +119,7 @@ reportForwardPowerLimit = Command(169, 0, 2, IntegerData(2))
 
 reportReflectedPowerLimit = Command(170, 0, 2, [IntegerData(2)])
 
-#TODO data insertion handling
+# TODO data insertion handling
 reportRecipeStepRampTime = Command(191, 1, 4, [IntegerData(2)])
 
 reportPulsingFrequency = Command(193, 0, 4, IntegerData(4))

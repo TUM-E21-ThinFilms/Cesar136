@@ -13,6 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+class InputParam():
+    def __init__(self, information,position , length ,range = None):
+        self._information = information
+        self._postion = position
+        self._byte_length = length
+        self._range = range
+
+
+# command 33
+SecondsToRFTurnOff = InputParam(" accepts values from 0 to 200s",0,1,(0,200),)
+PowerLimitTriggerInW = InputParam("accepts a value 1 lesser than set by command 5 or RFoutputpower*reflected factor",
+                                  1,2)
 
 class Parameter(object):
     # command 151
@@ -39,12 +51,10 @@ class Parameter(object):
     OUTPUT_POWER = (0, 5)
     RF_ON_REQUESTED = (0, 6)
     SET_POINT_TOLERANCE = (0, 7)
-
     # byte 1
     END_OF_TARGET_LIFE = (1, 0)
     OVERTEMPERATURE_FAULT = (1, 3)
     INTERLOCK = (1, 7)
-
     # byte 2 and 3 reserved
     # byte 4
     DC_CURRENT_LIMIT_WARNING = (4, 0)

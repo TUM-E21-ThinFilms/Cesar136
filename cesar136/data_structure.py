@@ -12,6 +12,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from cesar136.com_protocol import CSRCodes
 
 
 class AbstractData(object):
@@ -38,7 +39,7 @@ class ResponseFormat(object):
 
     def get_parameter(self, name=''):
         if len(self._params) == 1:
-            return self._params[0]
+            return self._params[0]._data
 
         for el in self._params:
             if isinstance(el, ByteFlagData):
@@ -47,7 +48,7 @@ class ResponseFormat(object):
                 else:
                     return self._params[name[0]].get_flag(name[1])
             if el.get_name() == name:
-                return el
+                return el._data
 
         raise RuntimeError("Could not find given parameter {}".format(name))
 
@@ -85,9 +86,12 @@ class MappingData(AbstractData):
         # Extract DataInt from data list
         DataInt = data[0]
         if not DataInt in self._mapping:
-            #TODO maybe it is a CSR code if it doesnt fit the mapping
-            raise ValueError("Ceasar unit returned different value than expected")
-        self.set_data(self._mapping[DataInt])
+            # try to find the value in the CSR responses if it is not in the mapping
+            if not DataInt in CSRCodes:
+                raise ValueError("Ceasar unit returned different value than expected")
+            self.set_data(CSRCodes[DataInt])
+        else:
+            self.set_data(self._mapping[DataInt])
 
 
 class ByteFlagData(AbstractData):
