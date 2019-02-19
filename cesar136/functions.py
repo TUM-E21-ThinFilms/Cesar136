@@ -100,7 +100,7 @@ def set_reflect_pow_params(data):
 
 # command 69
 def set_baud_rate(data):
-    return interactionProcess(presetCommands.setSerialBaudRate, data)
+    return interactionProcess(presetCommands.setSerialBaudRate, [0].append(data))
 
 # command 93
 def set_pulsing_frequency(data):

@@ -196,8 +196,7 @@ class presetCommands():
     reportReflectedPowerLimit = Command(170, 0, 2, [IntegerData(2)])
 
     # command 191
-    # TODO data insertion handling
-    reportRecipeStepRampTime = Command(191, 1, 4, [IntegerData(2)])
+    reportRecipeStepRampTime = Command(191, 1, 4, [RecipeStepNumber, IntegerData(2)])
 
     # command 193
     reportPulsingFrequency = Command(193, 0, 4, IntegerData(4))

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20f746fc-3f2b-4fa8-a899-980e2ca75803" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cesar136/command.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/command.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cesar136/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/functions.py" afterDir="false" />
     </list>
@@ -37,20 +36,20 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="390">
+                <state relative-caret-position="120">
                   <caret line="41" column="75" selection-start-line="41" selection-start-column="75" selection-end-line="41" selection-end-column="75" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/cesar136/functions.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1635">
-                  <caret line="110" column="74" selection-start-line="110" selection-start-column="74" selection-end-line="110" selection-end-column="74" />
+                <state relative-caret-position="-150">
+                  <caret line="102" column="79" selection-start-line="102" selection-start-column="79" selection-end-line="102" selection-end-column="79" />
                 </state>
               </provider>
             </entry>
@@ -83,8 +82,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cesar136/command.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-299">
-                  <caret line="82" column="23" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
+                <state relative-caret-position="676">
+                  <caret line="198" selection-start-line="198" selection-end-line="198" />
                   <folding>
                     <element signature="e#674#727#0" expanded="true" />
                   </folding>
@@ -116,8 +115,8 @@
         <option value="$PROJECT_DIR$/cesar136/com_protocol.py" />
         <option value="$PROJECT_DIR$/cesar136/data_structure.py" />
         <option value="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" />
-        <option value="$PROJECT_DIR$/cesar136/command.py" />
         <option value="$PROJECT_DIR$/cesar136/functions.py" />
+        <option value="$PROJECT_DIR$/cesar136/command.py" />
       </list>
     </option>
   </component>
@@ -257,13 +256,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="41" column="75" selection-start-line="41" selection-start-column="75" selection-end-line="41" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/com_protocol.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -274,20 +266,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
+    <entry file="file://$PROJECT_DIR$/cesar136/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-299">
-          <caret line="82" column="23" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
-          <folding>
-            <element signature="e#674#727#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-150">
+          <caret line="102" column="79" selection-start-line="102" selection-start-column="79" selection-end-line="102" selection-end-column="79" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/functions.py">
+    <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1635">
-          <caret line="110" column="74" selection-start-line="110" selection-start-column="74" selection-end-line="110" selection-end-column="74" />
+        <state relative-caret-position="120">
+          <caret line="41" column="75" selection-start-line="41" selection-start-column="75" selection-end-line="41" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="676">
+          <caret line="198" selection-start-line="198" selection-end-line="198" />
+          <folding>
+            <element signature="e#674#727#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
