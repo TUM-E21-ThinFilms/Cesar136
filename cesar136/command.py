@@ -121,7 +121,7 @@ reportReflectedPower = Command(166, 0, 2, [IntegerData(2)])
 
 reportDeliveredPower = Command(167, 0, 2, [IntegerData(2)])
 
-reportForwardPowerLimit = Command(169, 0, 2, IntegerData(2))
+reportForwardPowerLimit = Command(169, 0, 2, [IntegerData(2)])
 
 reportReflectedPowerLimit = Command(170, 0, 2, [IntegerData(2)])
 

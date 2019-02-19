@@ -54,7 +54,7 @@ class ResponseFormat(object):
 
         for el in self._params:
             if isinstance(el, ByteFlagData):
-                if isinstance(name, tuple):
+                if not isinstance(name, tuple):
                     raise ValueError("Wrong parameter for Byteflag data")
                 else:
                     return self._params[name[0]].get_flag(name[1])
