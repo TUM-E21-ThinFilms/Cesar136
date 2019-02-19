@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20f746fc-3f2b-4fa8-a899-980e2ca75803" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cesar136/com_protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/com_protocol.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cesar136/command.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/command.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cesar136/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/cesar136/functions.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,8 +81,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/cesar136/command.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1995">
-                  <caret line="133" column="56" selection-start-line="133" selection-start-column="56" selection-end-line="133" selection-end-column="56" />
+                <state relative-caret-position="877">
+                  <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
                   <folding>
                     <element signature="e#674#727#0" expanded="true" />
                   </folding>
@@ -123,8 +119,8 @@
         <option value="$PROJECT_DIR$/cesar136/data_structure.py" />
         <option value="$PROJECT_DIR$/cesar136/com_protocol.py" />
         <option value="$PROJECT_DIR$/cesar136/CodesnBitFlags.py" />
-        <option value="$PROJECT_DIR$/cesar136/command.py" />
         <option value="$PROJECT_DIR$/cesar136/functions.py" />
+        <option value="$PROJECT_DIR$/cesar136/command.py" />
       </list>
     </option>
   </component>
@@ -274,16 +270,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1995">
-          <caret line="133" column="56" selection-start-line="133" selection-start-column="56" selection-end-line="133" selection-end-column="56" />
-          <folding>
-            <element signature="e#674#727#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cesar136/CodesnBitFlags.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1680">
@@ -295,6 +281,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cesar136/command.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="877">
+          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+          <folding>
+            <element signature="e#674#727#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
