@@ -32,13 +32,12 @@ class Command():
         if self._DataBytesToSend > 0:
             self._DataInput = []
             sendByteCount = 0
-            while sendByteCount<self._DataBytesToSend:
+            while sendByteCount < self._DataBytesToSend:
                 try:
-                    sendByteCount+=self._DataConfig[0]._byte_length
+                    sendByteCount += self._DataConfig[0]._byte_length
                     self._DataInput.append(self._DataConfig.pop(0))
                 except:
                     break
-
 
     def set_data(self, data):
         # command is used to set data as ._DataInput defines it
@@ -57,7 +56,7 @@ class Command():
 
             if len(inputFormat._range) == 2:
                 # range consists of upper and lower boundary values
-                if not daten in range(inputFormat._range[0], inputFormat._range[1]):
+                if not daten in range(inputFormat._range[0], inputFormat._range[1] + 1):
                     raise ValueError("input data is not allowed for this parameter. {}".format(
                         inputFormat._information))
             elif inputFormat._range:
@@ -81,62 +80,140 @@ class Command():
             self._intArray = MessagePacket().createMessagePacket(self._commandNumber,
                                                                  self._DataBytesToSend)
 
+class presetCommands():
+    # command 1
+    turnOutputOff = Command(1, 0, 1)
 
-turnOutputOff = Command(1, 0, 1)
+    # command 2
+    turnOutputOn = Command(2, 0, 1)
 
-#command 14
-setActiveControlMode = Command(14,1,1,[ActiveControlmode])
+    # command 3
+    setRegulationMode = Command(3, 1, 1, [RegulationMode])
 
-# command 33
-setReflectedPowerParameters = Command(33,3,1,[SecondsToRFTurnOff,PowerLimitTriggerInW])
+    # command 4
+    setForwardPowerLimit = Command(4, 2, 1, [ForwardPowerLimit])
 
+    # command 5
+    setReflectedPowerLimit = Command(5, 2, 1, [ReflectedPowerLimit])
 
+    # command 8
+    setPowerSetPoint = Command(8, 2, 1, [PowerSetPoint])
 
-reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
-reportModelNumber = Command(129, 0, 5, [StringData(5)])
-reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2, Parameter.RAMP_ON),
-                                        IntegerData(2, Parameter.RAMP_OFF)])
+    # command 10
+    setRFOnTimeLimit = Command(10, 2, 1, [RFOnTimeLimit])
 
-reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1, Parameter.TIME_LIMIT_RF_TURN_OFF),
-                                                     IntegerData(2, Parameter.POWER_LIMIT_TRIGGER)])
+    # command 14
+    setActiveControlMode = Command(14, 1, 1, [ActiveControlmode])
 
-reportRegulationMode = Command(154, 0, 1, [MappingData({6: Parameter.FORWARD_POWER,
-                                                        7: Parameter.LOAD_POWER,
-                                                        8: Parameter.EXTERNAL_POWER})])
+    # command 19
+    setNumberOfRecipeSteps = Command(19, 1, 1, [NumberOfRecipeSteps])
 
-reportActiveControlMode = Command(155, 0, 1, [MappingData({2: Parameter.HOST_PORT,
-                                                           4: Parameter.USER_PORT,
-                                                           6: Parameter.FRONT_PANEL})])
+    # command 21
+    setRecipeStepRampTime = Command(21, 3, 1, [RecipeStepNumber, RecipeRampRunTime])
 
-reportProcessStatus = Command(162, 0, 4, [ByteFlagData()] * 4)
+    # command 22
+    setStepSetPoint = Command(22, 3, 1, [RecipeStepNumber, PowerStepSetPoint])
 
-reportSetPointAndRegulationMode = Command(164, 0, 3, [IntegerData(2, Parameter.SET_POINT_VALUE),
-                                                      MappingData({6: Parameter.FORWARD_POWER,
-                                                                   7: Parameter.LOAD_POWER,
-                                                                   8: Parameter.EXTERNAL_POWER})])
+    # command 23
+    setRecipeStepRunTime = Command(23, 3, 1, [RecipeStepNumber, RecipeRampRunTime])
 
-reportForwardPower = Command(165, 0, 2, [IntegerData(2)])
+    # command 24
+    savePresets = Command(24, 1, 1, [PresetsNumber])
 
-reportReflectedPower = Command(166, 0, 2, [IntegerData(2)])
+    # command 25
+    restorePresets = Command(25, 1, 1, [PresetsNumber])
 
-reportDeliveredPower = Command(167, 0, 2, [IntegerData(2)])
+    # command 29
+    setRemoteControlOverride = Command(29, 1, 1, [RemoteControlOverride])
 
-reportForwardPowerLimit = Command(169, 0, 2, [IntegerData(2)])
+    # command 30
+    setUserPortScaling = Command(30, 1, 1, [UserPortScaling])
 
-reportReflectedPowerLimit = Command(170, 0, 2, [IntegerData(2)])
+    # command 31
+    setRFOnOffRampingRiseTime = Command(31, 2, 1, [RampRiseFallTime])
 
-# TODO data insertion handling
-reportRecipeStepRampTime = Command(191, 1, 4, [IntegerData(2)])
+    # command 32
+    setRFOnOffRampingFallTime = Command(32, 2, 1, [RampRiseFallTime])
 
-reportPulsingFrequency = Command(193, 0, 4, IntegerData(4))
+    # command 33
+    setReflectedPowerParameters = Command(33, 3, 1, [SecondsToRFTurnOff, PowerLimitTriggerInW])
 
-reportPulsingDutyCycle = Command(196, 0, 2, [IntegerData(2)])
+    # command 69
+    setSerialBaudRate = Command(69, 3, 1, [IgnoredByte, BaudRate])
 
-reportUnitRunTime = Command(205, 0, 4, [IntegerData(4)])
+    # command 93
+    setPulsingFrequency = Command(93, 4, 1, [PulsingFrequency])
 
-reportSerialPortAddressAndBaudRate = Command(212, 0, 3, [IntegerData(1, Parameter.AE_BUS_ADRESS),
-                                                         IntegerData(2, Parameter.BAUD_RATE)])
+    # command 96
+    setPulsingDutyCycle = Command(96, 2, 1, [PulsingDutyCycle])
 
-reportFaultStatusRegister = Command(223, 0, 4, [ByteFlagData()] * 4)
+    # command 128
+    reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
 
-reportRFOnTimeLimit = Command(243, 0, 2, [IntegerData(2)])
+    # command 129
+    reportModelNumber = Command(129, 0, 5, [StringData(5)])
+
+    # command 151
+    reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2, Parameter.RAMP_ON),
+                                            IntegerData(2, Parameter.RAMP_OFF)])
+
+    # command 152
+    reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1, Parameter.TIME_LIMIT_RF_TURN_OFF),
+                                                         IntegerData(2, Parameter.POWER_LIMIT_TRIGGER)])
+
+    # command 154
+    reportRegulationMode = Command(154, 0, 1, [MappingData({6: Parameter.FORWARD_POWER,
+                                                            7: Parameter.LOAD_POWER,
+                                                            8: Parameter.EXTERNAL_POWER})])
+
+    # command 155
+    reportActiveControlMode = Command(155, 0, 1, [MappingData({2: Parameter.HOST_PORT,
+                                                               4: Parameter.USER_PORT,
+                                                               6: Parameter.FRONT_PANEL})])
+
+    # command 162
+    reportProcessStatus = Command(162, 0, 4, [ByteFlagData()] * 4)
+
+    # command 164
+    reportSetPointAndRegulationMode = Command(164, 0, 3, [IntegerData(2, Parameter.SET_POINT_VALUE),
+                                                          MappingData({6: Parameter.FORWARD_POWER,
+                                                                       7: Parameter.LOAD_POWER,
+                                                                       8: Parameter.EXTERNAL_POWER})])
+
+    # command 165
+    reportForwardPower = Command(165, 0, 2, [IntegerData(2)])
+
+    # command 166
+    reportReflectedPower = Command(166, 0, 2, [IntegerData(2)])
+
+    # command 167
+    reportDeliveredPower = Command(167, 0, 2, [IntegerData(2)])
+
+    # command 169
+    reportForwardPowerLimit = Command(169, 0, 2, [IntegerData(2)])
+
+    # command 170
+    reportReflectedPowerLimit = Command(170, 0, 2, [IntegerData(2)])
+
+    # command 191
+    # TODO data insertion handling
+    reportRecipeStepRampTime = Command(191, 1, 4, [IntegerData(2)])
+
+    # command 193
+    reportPulsingFrequency = Command(193, 0, 4, IntegerData(4))
+
+    # command 196
+    reportPulsingDutyCycle = Command(196, 0, 2, [IntegerData(2)])
+
+    # command 205
+    reportUnitRunTime = Command(205, 0, 4, [IntegerData(4)])
+
+    # command 212
+    reportSerialPortAddressAndBaudRate = Command(212, 0, 3, [IntegerData(1, Parameter.AE_BUS_ADRESS),
+                                                             IntegerData(2, Parameter.BAUD_RATE)])
+
+    # command 223
+    reportFaultStatusRegister = Command(223, 0, 4, [ByteFlagData()] * 4)
+
+    # command 243
+    reportRFOnTimeLimit = Command(243, 0, 2, [IntegerData(2)])
