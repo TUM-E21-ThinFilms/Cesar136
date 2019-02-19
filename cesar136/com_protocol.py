@@ -28,17 +28,20 @@ def interactionProcess(command: Command, data=None):
     command.prepareInteraction()
     ser.write(bytearray(command._intArray))
     # no valuable information in first byte
+    # just reading 10 bytes because the unit is not usually sending more than that
     raw_response = ReceivedByteArray(bytearray(ser.read(10))[1::])
     if raw_response.checkForCompletness() != 0:
         raise ValueError("Computer received no valid response, try again.")
     else:
-        probableCSR = 1 ==raw_response._data_length != command._DataBytesExpected
+        probableCSR = raw_response._data_length != command._DataBytesExpected
         if command._CSRonly or probableCSR:
             if raw_response._data_length == 1:
                 # _data is list with one element
                 answer = CSRCodes[raw_response._data[0]]
             else:
-                raise ValueError("Something must be wrong, CSR contained more data")
+                # Should not happen. Either message is wrong or we just get a CSR
+                # if we have more than one data byte returned then probably the protocol is wrong
+                raise ValueError("Something must be wrong, CSR contained more data. Probably the protocol is wrong")
         else:
             answer = raw_response.extractData(command._DataConfig)
     return answer

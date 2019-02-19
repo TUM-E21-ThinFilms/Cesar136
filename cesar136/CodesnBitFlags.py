@@ -14,102 +14,102 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class InputParam():
-    def __init__(self, information, position, length, range=()):
+    def __init__(self, information, position, length, expected_values=None):
         self._information = information
         self._postion = position
         self._byte_length = length
-        self._range = range
+        self._range = expected_values
 
+class ParamInfos():
+    # command 3
+    RegulationMode = InputParam("accepts only these specific values \n"
+                                "6, Forward power regulation\n"
+                                "7, Load power regulation (also called real or delivered power)\n"
+                                "8, External power regulation (DC Bias)\n",
+                                0, 1, (6, 7, 8))
 
-# command 3
-RegulationMode = InputParam("accepts only these specific values \n"
-                            "6, Forward power regulation\n"
-                            "7, Load power regulation (also called real or delivered power)\n"
-                            "8, External power regulation (DC Bias)\n",
-                            0, 1, (6, 7, 8))
+    # command 4
+    ForwardPowerLimit = InputParam("accepts a value of 5 to 100 percent of maximum power",
+                                   0, 2)  # TODO find out range(maximum power)
 
-# command 4
-ForwardPowerLimit = InputParam("accepts a value of 5 to 100 percent of maximum power",
-                               0, 2)  # TODO find out range(maximum power)
+    # command 5
+    ReflectedPowerLimit = InputParam("accepts a value from 1 Watt through the maximum reflected power.\n"
+                                     "The maximum is also limited by negative cable attenuation factors settings\n",
+                                     0, 2)  # TODO find out range
 
-# command 5
-ReflectedPowerLimit = InputParam("accepts a value from 1 Watt through the maximum reflected power.\n"
-                                 "The maximum is also limited by negative cable attenuation factors settings\n",
-                                 0, 2)  # TODO find out range
-
-# command 8
-PowerSetPoint = InputParam("set point level is in Watt or Volt depending on the regulation mode.\n"
-                           "accepts 0 to maximum RF output power in Watt,\n"
-                           "accepts 0 to maximum external feedback value in Volts.\n",
-                           0, 2)
-
-# command 10
-RFOnTimeLimit = InputParam("accepts values from 0 to 3600s. A 0 deactivates this function",
-                           0, 2, (0, 3600))
-
-# command 14
-ActiveControlmode = InputParam("accepts values only these specific values \n"
-                               "2, Host Port\n"
-                               "4, User Port\n"
-                               "6, Front Panel\n"
-                               "10, Reset Front Panel display\n"
-                               "11, Disable front panel program menu presets\n"
-                               "12, disable all front panel functions except display soft key\n"
-                               "13, Diable all front panel functions\n"
-                               "20, Reset front panel display\n"
-                               "22, Set front panel display to show only ready, active, error\n"
-                               "23, Turn off front panel display\n",
-                               0, 1, (2, 4, 6, 10, 11, 12, 13, 20, 22, 23))
-
-# command 19
-NumberOfRecipeSteps = InputParam("accepts a value of 0 to 2",
-                                 0, 1, (0, 2))
-
-# command 21, 22, 23
-RecipeStepNumber = InputParam("accepts values from 1 to 2",
-                              0, 1, (1, 2))
-RecipeRampRunTime = InputParam("accepts a value from 0 to 36000 (= one hour) in tenths of a second",
-                               1, 2, (0, 36000))
-PowerStepSetPoint = InputParam("set point level is in Watt or Volt depending on the regulation mode.\n"
+    # command 8
+    PowerSetPoint = InputParam("set point level is in Watt or Volt depending on the regulation mode.\n"
                                "accepts 0 to maximum RF output power in Watt,\n"
                                "accepts 0 to maximum external feedback value in Volts.\n",
-                               1, 2)
+                               0, 2)
 
-# command 24, 25
-PresetsNumber = InputParam("accepts a value from 1 to 5",
-                           0, 1, (1, 5))
+    # command 10
+    RFOnTimeLimit = InputParam("accepts values from 0 to 3600s. A 0 deactivates this function",
+                               0, 2, range(0, 3601))
 
-# command 29
-RemoteControlOverride = InputParam("accepts Bitwise enableing from int values 0 to 15.\n"
-                                   " Please insert as an int!",
-                                   0, 1, (0, 15))
+    # command 14
+    ActiveControlmode = InputParam("accepts values only these specific values \n"
+                                   "2, Host Port\n"
+                                   "4, User Port\n"
+                                   "6, Front Panel\n"
+                                   "10, Reset Front Panel display\n"
+                                   "11, Disable front panel program menu presets\n"
+                                   "12, disable all front panel functions except display soft key\n"
+                                   "13, Diable all front panel functions\n"
+                                   "20, Reset front panel display\n"
+                                   "22, Set front panel display to show only ready, active, error\n"
+                                   "23, Turn off front panel display\n",
+                                   0, 1, (2, 4, 6, 10, 11, 12, 13, 20, 22, 23))
 
-# command 30
-UserPortScaling = InputParam("accepts values from 4 to 40.\n"
-                             "inserted value is divided by 2 internally to get 0.5 Volt steps (2 to 20)\n",
-                             0, 1, (4, 40))
+    # command 19
+    NumberOfRecipeSteps = InputParam("accepts a value of 0 to 2",
+                                     0, 1, range(0, 3))
 
-# command 31, 32
-RampRiseFallTime = InputParam("accepts values from 0 t 2400 (=4 min) in tenths of a second",
-                              0, 2, (0, 2400))
+    # command 21, 22, 23
+    RecipeStepNumber = InputParam("accepts values from 1 to 2",
+                                  0, 1, range(1, 3))
+    RecipeRampRunTime = InputParam("accepts a value from 0 to 36000 (= one hour) in tenths of a second",
+                                   1, 2, range(0, 36001))
+    PowerStepSetPoint = InputParam("set point level is in Watt or Volt depending on the regulation mode.\n"
+                                   "accepts 0 to maximum RF output power in Watt,\n"
+                                   "accepts 0 to maximum external feedback value in Volts.\n",
+                                   1, 2)
 
-# command 33
-SecondsToRFTurnOff = InputParam(" accepts values from 0 to 200s", 0, 1, (0, 200))
-PowerLimitTriggerInW = InputParam("accepts a value 1 lesser than set by command 5 or RFoutputpower*reflected factor",
-                                  1, 2)
+    # command 24, 25
+    PresetsNumber = InputParam("accepts a value from 1 to 5",
+                               0, 1, (1, 6))
 
-# command 69
-IgnoredByte = InputParam("", 0, 1)
-BaudRate = InputParam("accepts the baud rates: 9600, 19200,38400, 57600, 115200 (send 0 for this rate)",
-                      1, 2, (0, 9600, 19200, 38400, 57600))
+    # command 29
+    RemoteControlOverride = InputParam("accepts Bitwise enabling from int values 0 to 15.\n"
+                                       " Please insert as an int!",
+                                       0, 1, range(0, 15+1))
 
-# command 93
-PulsingFrequency = InputParam("accepts values from 1 Hz to the maximum pulsing frequency\n",
-                              0, 4)  # TODO find out range
+    # command 30
+    UserPortScaling = InputParam("accepts values from 4 to 40.\n"
+                                 "inserted value is divided by 2 internally to get 0.5 Volt steps (2 to 20)\n",
+                                 0, 1, range(4, 41))
 
-# command 96
-PulsingDutyCycle = InputParam("accepts a value in percent from 1 to 99",
-                              0, 2, (1, 99))
+    # command 31, 32
+    RampRiseFallTime = InputParam("accepts values from 0 t 2400 (=4 min) in tenths of a second",
+                                  0, 2, range(0, 2401))
+
+    # command 33
+    SecondsToRFTurnOff = InputParam(" accepts values from 0 to 200s", 0, 1, range(0, 201))
+    PowerLimitTriggerInW = InputParam("accepts a value 1 lesser than set by command 5 or RFoutputpower*reflected factor",
+                                      1, 2)
+
+    # command 69
+    IgnoredByte = InputParam("", 0, 1)
+    BaudRate = InputParam("accepts the baud rates: 9600, 19200,38400, 57600, 115200 (send 0 for this rate)",
+                          1, 2, (0, 9600, 19200, 38400, 57600))
+
+    # command 93
+    PulsingFrequency = InputParam("accepts values from 1 Hz to the maximum pulsing frequency\n",
+                                  0, 4)  # TODO find out range
+
+    # command 96
+    PulsingDutyCycle = InputParam("accepts a value in percent from 1 to 99",
+                                  0, 2, range(1, 100))
 
 
 class Parameter(object):

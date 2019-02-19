@@ -45,21 +45,7 @@ class Command():
         if len(data) != len(self._DataInput):
             raise ValueError("Not enough or too many input parameters. Input as [data1,data2]")
         for inputFormat, daten in zip(self._DataInput, data):
-            if isinstance(daten, tuple):
-                # not usually the case. command 29 requires bitwise input and
-                # daten should be a tuple of all the bits to set to 1
-                # -> convert daten to an integer
-                temp = 0
-                for kl in daten:
-                    temp += 1 << kl
-                daten = temp
-
-            if len(inputFormat._range) == 2:
-                # range consists of upper and lower boundary values
-                if not daten in range(inputFormat._range[0], inputFormat._range[1] + 1):
-                    raise ValueError("input data is not allowed for this parameter. {}".format(
-                        inputFormat._information))
-            elif inputFormat._range:
+            if inputFormat._range is not None:
                 # range is a tuple of allowed values
                 if not daten in inputFormat._range:
                     raise ValueError("input data is not allowed for this parameter. {}".format(
@@ -88,64 +74,64 @@ class presetCommands():
     turnOutputOn = Command(2, 0, 1)
 
     # command 3
-    setRegulationMode = Command(3, 1, 1, [RegulationMode])
+    setRegulationMode = Command(3, 1, 1, [ParamInfos.RegulationMode])
 
     # command 4
-    setForwardPowerLimit = Command(4, 2, 1, [ForwardPowerLimit])
+    setForwardPowerLimit = Command(4, 2, 1, [ParamInfos.ForwardPowerLimit])
 
     # command 5
-    setReflectedPowerLimit = Command(5, 2, 1, [ReflectedPowerLimit])
+    setReflectedPowerLimit = Command(5, 2, 1, [ParamInfos.ReflectedPowerLimit])
 
     # command 8
-    setPowerSetPoint = Command(8, 2, 1, [PowerSetPoint])
+    setPowerSetPoint = Command(8, 2, 1, [ParamInfos.PowerSetPoint])
 
     # command 10
-    setRFOnTimeLimit = Command(10, 2, 1, [RFOnTimeLimit])
+    setRFOnTimeLimit = Command(10, 2, 1, [ParamInfos.RFOnTimeLimit])
 
     # command 14
-    setActiveControlMode = Command(14, 1, 1, [ActiveControlmode])
+    setActiveControlMode = Command(14, 1, 1, [ParamInfos.ActiveControlmode])
 
     # command 19
-    setNumberOfRecipeSteps = Command(19, 1, 1, [NumberOfRecipeSteps])
+    setNumberOfRecipeSteps = Command(19, 1, 1, [ParamInfos.NumberOfRecipeSteps])
 
     # command 21
-    setRecipeStepRampTime = Command(21, 3, 1, [RecipeStepNumber, RecipeRampRunTime])
+    setRecipeStepRampTime = Command(21, 3, 1, [ParamInfos.RecipeStepNumber, ParamInfos.RecipeRampRunTime])
 
     # command 22
-    setStepSetPoint = Command(22, 3, 1, [RecipeStepNumber, PowerStepSetPoint])
+    setStepSetPoint = Command(22, 3, 1, [ParamInfos.RecipeStepNumber, ParamInfos.PowerStepSetPoint])
 
     # command 23
-    setRecipeStepRunTime = Command(23, 3, 1, [RecipeStepNumber, RecipeRampRunTime])
+    setRecipeStepRunTime = Command(23, 3, 1, [ParamInfos.RecipeStepNumber, ParamInfos.RecipeRampRunTime])
 
     # command 24
-    savePresets = Command(24, 1, 1, [PresetsNumber])
+    savePresets = Command(24, 1, 1, [ParamInfos.PresetsNumber])
 
     # command 25
-    restorePresets = Command(25, 1, 1, [PresetsNumber])
+    restorePresets = Command(25, 1, 1, [ParamInfos.PresetsNumber])
 
     # command 29
-    setRemoteControlOverride = Command(29, 1, 1, [RemoteControlOverride])
+    setRemoteControlOverride = Command(29, 1, 1, [ParamInfos.RemoteControlOverride])
 
     # command 30
-    setUserPortScaling = Command(30, 1, 1, [UserPortScaling])
+    setUserPortScaling = Command(30, 1, 1, [ParamInfos.UserPortScaling])
 
     # command 31
-    setRFOnOffRampingRiseTime = Command(31, 2, 1, [RampRiseFallTime])
+    setRFOnOffRampingRiseTime = Command(31, 2, 1, [ParamInfos.RampRiseFallTime])
 
     # command 32
-    setRFOnOffRampingFallTime = Command(32, 2, 1, [RampRiseFallTime])
+    setRFOnOffRampingFallTime = Command(32, 2, 1, [ParamInfos.RampRiseFallTime])
 
     # command 33
-    setReflectedPowerParameters = Command(33, 3, 1, [SecondsToRFTurnOff, PowerLimitTriggerInW])
+    setReflectedPowerParameters = Command(33, 3, 1, [ParamInfos.SecondsToRFTurnOff, ParamInfos.PowerLimitTriggerInW])
 
     # command 69
-    setSerialBaudRate = Command(69, 3, 1, [IgnoredByte, BaudRate])
+    setSerialBaudRate = Command(69, 3, 1, [ParamInfos.IgnoredByte, ParamInfos.BaudRate])
 
     # command 93
-    setPulsingFrequency = Command(93, 4, 1, [PulsingFrequency])
+    setPulsingFrequency = Command(93, 4, 1, [ParamInfos.PulsingFrequency])
 
     # command 96
-    setPulsingDutyCycle = Command(96, 2, 1, [PulsingDutyCycle])
+    setPulsingDutyCycle = Command(96, 2, 1, [ParamInfos.PulsingDutyCycle])
 
     # command 128
     reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
