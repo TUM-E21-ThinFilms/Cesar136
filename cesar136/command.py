@@ -13,84 +13,73 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from e21_util.interface import Loggable
+
 from cesar136.raw_message_packet import MessagePacket
-from cesar136.CodesnBitFlags import *
+from cesar136.constants import *
 from cesar136.data_structure import *
 
 
-class Command():
-    def __init__(self, commandNumber, DataBytesTosend, DatabytesExpected, DataConfig=None):
-        self._commandNumber = commandNumber
-        self._DataBytesToSend = DataBytesTosend
-        self._DataBytesExpected = DatabytesExpected
-        if self._commandNumber < 128:
-            self._CSRonly = True
-        else:
-            self._CSRonly = False
-        self._DataConfig = DataConfig
+class Command:
+    def __init__(self, id, input_parameters: List[AbstractInput] = None, output_parameters: List[AbstractData] = None):
+        self._id = id
+        self._input = input_parameters
+        self._output = output_parameters
 
-        if self._DataBytesToSend > 0:
-            self._DataInput = []
-            sendByteCount = 0
-            while sendByteCount < self._DataBytesToSend:
-                try:
-                    sendByteCount += self._DataConfig[0]._byte_length
-                    self._DataInput.append(self._DataConfig.pop(0))
-                except:
-                    break
+    def get_expected_response_data_length(self):
+        return sum(map(lambda x: x.get_length(), self._output))
 
-    def set_data(self, data):
-        # command is used to set data as ._DataInput defines it
-        self._dataArray = []
-        if len(data) != len(self._DataInput):
-            raise ValueError("Not enough or too many input parameters. Input as [data1,data2]")
-        for inputFormat, daten in zip(self._DataInput, data):
-            if inputFormat._range is not None:
-                # range is a tuple of allowed values
-                if not daten in inputFormat._range:
-                    raise ValueError("input data is not allowed for this parameter. {}".format(
-                        inputFormat._information))
-            else:
-                # range can not be easily specified accept all values...
-                pass
-            self._dataArray += daten.to_bytes(inputFormat._byte_length, byteorder="little")
+    def get_data_config(self):
+        return self._output
 
-        self._data = int.from_bytes(self._dataArray, byteorder="little")
+    def get_raw(self):
+        data = []
 
-    def prepareInteraction(self):
-        if self._DataBytesToSend != 0:
-            self._intArray = MessagePacket().createMessagePacket(self._commandNumber,
-                                                                 self._DataBytesToSend,
-                                                                 self._data)
-        else:
-            self._intArray = MessagePacket().createMessagePacket(self._commandNumber,
-                                                                 self._DataBytesToSend)
+        for input in self._input:
+            data.extend(input.get())
+
+        bytes_to_send = len(self._data)
+
+        return MessagePacket().createMessagePacket(self._id, bytes_to_send, data)
+
+
+class Driver(Loggable):
+    def __init__(self, protocol, logger):
+        super(Driver, self).__init__(logger)
+        assert isinstance(protocol, Protocol)
+
+    def turn_off(self):
+        return self._protocol.execute(Command(1, [], []))
+
+    def turn_on(self):
+        return self._protocol.execute(Command(2, [], []))
+
+    def set_regulation_mode(self, mode):
+        mode_input = IntegerInput(mode, ParamInfos.RegulationMode)
+        return self._protocol.execute(Command(3, [mode_input], []))
+
+    def set_forward_power_limit(self, power_limit):
+        power_input = IntegerInput(power_limit, ParamInfos.ForwardPowerLimit)
+        return self._protocol.execute(Command(4, [power_input], []))
+
+    def set_reflected_power_limit(self, power_limit):
+        power_input = IntegerInput(power_limit, ParamInfos.ReflectedPowerLimit)
+        return self._protocol.execute(Command(5, [power_input], []))
+
+    def set_power(self, power):
+        power_input = IntegerInput(power, ParamInfos.PowerSetPoint)
+        return self._protocol.execut(Command(8, [power_input], []))
+
+    def set_time_limit(self, time_limit):
+        time_input = IntegerInput(time_limit, ParamInfos.RFOnTimeLimit)
+        return self._protocol.execute(Command(10, [time_input], []))
+
+    def set_control_mode(self, control_mode):
+        control_input = IntegerInput(control_mode, ParamInfos.ActiveControlMode)
+        return self._protocol.execute(Command(14, [control_input], []))
+
 
 class presetCommands():
-    # command 1
-    turnOutputOff = Command(1, 0, 1)
-
-    # command 2
-    turnOutputOn = Command(2, 0, 1)
-
-    # command 3
-    setRegulationMode = Command(3, 1, 1, [ParamInfos.RegulationMode])
-
-    # command 4
-    setForwardPowerLimit = Command(4, 2, 1, [ParamInfos.ForwardPowerLimit])
-
-    # command 5
-    setReflectedPowerLimit = Command(5, 2, 1, [ParamInfos.ReflectedPowerLimit])
-
-    # command 8
-    setPowerSetPoint = Command(8, 2, 1, [ParamInfos.PowerSetPoint])
-
-    # command 10
-    setRFOnTimeLimit = Command(10, 2, 1, [ParamInfos.RFOnTimeLimit])
-
-    # command 14
-    setActiveControlMode = Command(14, 1, 1, [ParamInfos.ActiveControlmode])
-
     # command 19
     setNumberOfRecipeSteps = Command(19, 1, 1, [ParamInfos.NumberOfRecipeSteps])
 

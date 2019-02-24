@@ -13,26 +13,53 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-CSRCodes = {0: "Command accepted",
-            1: "Control code is incorrect",
-            2: "Output is on (change not allowed)",
-            4: "Data is out of range",
-            7: "Active fault(s) exist",
-            9: "Data byte count is incorrect",
-            19: "Recipe is active (change not allowed)",
-            50: "The frequency is out of range",
-            51: "The duty cycle is out of range",
-            53: "The device controlled by the command is not detected",
-            99: "Command not accepted (there is no such command)"}
+from cesar136.constants import ParamInfos, Parameter
+
+
+class CSRCodes:
+    UNKNOWN = -1
+
+    ACCEPTED = 0
+    CONTROL_CODE_INCORRECT = 1
+    OUTPUT_ON = 2
+    DATA_OUT_OF_RANGE = 4
+    ACTIVE_FAULT = 7
+    DATA_BYTE_COUNT_INCORRECT = 9
+    RECIPE_ACTIVE = 19
+    FREQUENCY_OUT_OF_RANGE = 50
+    DUTY_CYCLE_OUT_OF_RANGE = 51  #
+    COMMAND_NOT_DETECTED = 53
+    COMMAND_NOT_ACCEPTED = 99
+
+    CODES = [
+        ACCEPTED,
+        CONTROL_CODE_INCORRECT,
+        OUTPUT_ON,
+        DATA_OUT_OF_RANGE,
+        ACTIVE_FAULT,
+        DATA_BYTE_COUNT_INCORRECT,
+        RECIPE_ACTIVE,
+        FREQUENCY_OUT_OF_RANGE,
+        DUTY_CYCLE_OUT_OF_RANGE,
+        COMMAND_NOT_DETECTED,
+        COMMAND_NOT_ACCEPTED,
+    ]
 
 
 class AbstractData(object):
-    def __init__(self, name=''):
+    def __init__(self, name, length=1):
         self._name = name
         self._data = None
+        self._length = length
+
+    def get_length(self):
+        return self._length
 
     def get_name(self):
         return self._name
+
+    def clear(self):
+        self._data = None
 
     def set_data(self, data):
         self._data = data
@@ -40,15 +67,33 @@ class AbstractData(object):
     def get(self):
         return self._data
 
+    def parse(self, data):
+        raise NotImplementedError()
 
-class ResponseFormat(object):
-    def __init__(self):
-        self._params = []
+
+class Response(object):
+    def __init__(self, data_config: List[AbstractData]):
+        self._params = data_config
+        self._is_csr = False
+        self._csr = CSRData()
+
+        for config in self._params:
+            if instanceof(config, CSRData):
+                raise RuntimeError("CSRData is always implicitly set, do not use this in data_config.")
+
+    def is_csr(self):
+        return self._csr.is_set()
+
+    def get_csr(self):
+        return self._csr
 
     def set_parameter(self, data: AbstractData):
         self._params.append(data)
 
     def get_parameter(self, name=''):
+        if self.is_csr():
+            raise RuntimeError("Response contains only CSR code")
+
         if len(self._params) == 1:
             return self._params[0]._data
 
@@ -64,55 +109,70 @@ class ResponseFormat(object):
         raise RuntimeError("Could not find given parameter {}".format(name))
 
 
-# any additional new datatype has to contain the instance _numberOfBytes
-# and the function analyze()
-
 class StringData(AbstractData):
-    def __init__(self, NumberOfBytes, name="irrelevant"):
-        super(StringData, self).__init__(name)
-        self._numberOfBytes = NumberOfBytes
+    def __init__(self, length, name="irrelevant"):
+        super(StringData, self).__init__(name, length)
 
-    def analyze(self, Intlist):
+    def parse(self, data):
         # get rid of empty bytes
-        Intlist = [k for k in Intlist if k != 0]
-        self.set_data(bytearray(Intlist).decode(encoding='ascii'))
+        data = [k for k in data if k != 0]
+        return bytearray(data).decode(encoding='ascii')
 
 
 class IntegerData(AbstractData):
-    def __init__(self, NumberOfBytes, name="irrelevant"):
-        self._numberOfBytes = NumberOfBytes
-        super(IntegerData, self).__init__(name)
+    def __init__(self, length, name="irrelevant"):
+        super(IntegerData, self).__init__(name, length)
 
-    def analyze(self, Intlist):
-        self.set_data(int.from_bytes(Intlist, byteorder="little"))
+    def parse(self, data):
+        return int.from_bytes(data, byteorder="little")
 
 
 class MappingData(AbstractData):
     def __init__(self, mapping, name="irrelevant"):
         self._mapping = mapping
-        self._numberOfBytes = 1
-        super(MappingData, self).__init__(name)
+        super(MappingData, self).__init__(name, 1)
 
-    def analyze(self, data):
+    def parse(self, data):
         # Extract DataInt from data list
-        DataInt = data[0]
-        if not DataInt in self._mapping:
-            # try to find the value in the CSR responses if it is not in the mapping
-            if not DataInt in CSRCodes:
-                raise ValueError("Ceasar unit returned different value than expected")
-            self.set_data(CSRCodes[DataInt])
-        else:
-            self.set_data(self._mapping[DataInt])
+        if data not in self._mapping:
+            raise RuntimeError("Received unexpected value %s in mapping".format(data))
+
+        return self._mapping[data]
 
 
 class ByteFlagData(AbstractData):
     def __init__(self, name="irrelevant"):
-        # self._bitFlagList = BitFlagList
-        self._numberOfBytes = 1
-        super(ByteFlagData, self).__init__(name)
+        super(ByteFlagData, self).__init__(name, 1)
 
-    def analyze(self, data):
-        self.set_data(data)
+    def parse(self, data):
+        return data & 0xFF
 
     def get_flag(self, bit_position):
         return self.get()[0] & (1 << bit_position)
+
+
+class CSRData(AbstractData):
+    def __init__(self):
+        super(CSRData, self).__init__(Parameter.CSR, 1)
+
+    def parse(self, data):
+        if data not in CSRCodes.CODES:
+            return CSRCodes.UNKNOWN
+
+    def is_set(self):
+        return self._data is not None
+
+
+class AbstractInput(object):
+    def __init__(self, parameter: InputParam):
+        self._param = parameter
+
+
+class IntegerInput(AbstractInput):
+    def __init__(self, value, param: InputParam):
+        super(IntegerInput, self).__init__(param)
+        self._data = value
+        self._param.validate(self._data)
+
+    def get(self):
+        return self._data.to_bytes(self._param.get_length(), byteorder="little")

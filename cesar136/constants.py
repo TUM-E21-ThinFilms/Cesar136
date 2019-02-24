@@ -13,12 +13,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+class ValidationError(RuntimeError):
+    pass
+
 class InputParam():
     def __init__(self, information, position, length, expected_values=None):
         self._information = information
         self._postion = position
         self._byte_length = length
         self._range = expected_values
+
+    def validate(self, data):
+        if self._range is None:
+            return
+
+        if data not in self._range:
+            raise ValidationError(self._information)
+
+    def get_length(self):
+        return self._byte_length
 
 class ParamInfos():
     # command 3
@@ -48,7 +61,7 @@ class ParamInfos():
                                0, 2, range(0, 3601))
 
     # command 14
-    ActiveControlmode = InputParam("accepts values only these specific values \n"
+    ActiveControlMode = InputParam("accepts values only these specific values \n"
                                    "2, Host Port\n"
                                    "4, User Port\n"
                                    "6, Front Panel\n"
@@ -112,8 +125,11 @@ class ParamInfos():
                                   0, 2, range(1, 100))
 
 
+
 class Parameter(object):
     # command 151
+    CSR = 'CSR'
+
     RAMP_ON = 'Ramp on'
     RAMP_OFF = 'Ramp off'
 

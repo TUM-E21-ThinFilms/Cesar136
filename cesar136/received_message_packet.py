@@ -15,7 +15,7 @@
 
 
 from cesar136.raw_message_packet import MessagePacket
-from cesar136.data_structure import ResponseFormat
+from cesar136.data_structure import Response
 
 
 class ReceivedByteArray(MessagePacket):
@@ -31,7 +31,7 @@ class ReceivedByteArray(MessagePacket):
         return self.xor(self._intArray)
 
     def extractData(self, DataConfig):
-        self._formatedData = ResponseFormat()
+        self._formatedData = Response()
         index = 0
 
         for config in DataConfig:

@@ -18,7 +18,7 @@
 # the command is set (command.py)
 
 
-from cesar136.com_protocol import interactionProcess
+from cesar136.protocol import interactionProcess
 from cesar136.command import *
 
 

@@ -83,6 +83,12 @@ class MessagePacket(object):
     def get_data(self):
         return self._data
 
+    def get_data_length(self):
+        return len(self._data)
+
+    def is_valid(self):
+        return self._checksum == self.xor(self._intArray)
+
     def to_raw(self):
         data_length = len(self._data)
 
@@ -93,15 +99,26 @@ class MessagePacket(object):
             header_data_length = 0b111
             optional_length = data_length
 
+        # The header looks like this (in binary)
+        #
+        #   xxxxx yyy
+        #
+        # where the first 5 x (five bit) correspond to the serial number
+        # and the last 3 y (three bit) correspond to the data length
         header = (self._address << 3) | header_data_length
 
         raw = [header, self._command_id, optional_length] + self._data
+
         # remove the optional length byte if it is None
         raw = [el for el in raw if el is not None]
 
         checksum = self.xor(raw)
 
         return raw + [checksum]
+
+    @staticmethod
+    def from_raw(raw: bytearray):
+        return MessagePacket(raw)
 
     def parse_packet(self, raw: bytearray):
         data = raw.copy()
@@ -131,8 +148,8 @@ class MessagePacket(object):
         if serialnumber is None:
             serialnumber = self.CESAR_DEFAULT_DEVICE_NUMBER
 
-        temp = serialnumber << 3  # shift serialnumber three bits
-        self._header = temp | datalength  # insert datalength to the three bits
+
+        self._header = (serialnumber << 3) | datalength
 
     def xor(self, raw: bytearray):
         result = 0
@@ -147,10 +164,7 @@ class MessagePacket(object):
         if raw is None:
             raw = self._intArray
 
-        # TODO assignment of result needed?
-        result = self.xor(raw)
-
-        self._checksum = result
+        self._checksum = self.xor(raw)
         self._intArray.append(self._checksum)
 
     def createIntArray(self):
