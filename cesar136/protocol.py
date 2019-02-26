@@ -15,7 +15,7 @@
 
 from cesar136.command import Command
 from cesar136.raw_message_packet import MessagePacket
-from cesar136.data_structure import Response
+from cesar136.data_structure import Response, Output
 
 from e21_util.serial_connection import AbstractTransport, SerialTimeoutException
 from e21_util.interface import Loggable
@@ -71,7 +71,7 @@ class Protocol(Loggable):
         if not msg.is_valid():
             raise CommunicationError("Received response is not valid")
 
-        response = Response(command.get_data_config())
+        response = Response(command.get_outputs())
 
         # we received not the same amount of data than expected. This occurs only in two cases:
         # 1. The protocol was not correctly specified by the user
@@ -79,20 +79,21 @@ class Protocol(Loggable):
         if command.get_expected_response_data_length() != msg.get_data_length():
             # This is then the case 2
             if msg.get_data_length() == 1:
-                response.get_csr().set_data(msg.get_data()[0])
+                response.get_csr().set_raw(msg.get_data())
             else:
                 raise CommunicationError(
                     "Received an unexpected amount of data (%s bytes) from device. Expectation was %s bytes (excluding CSR)".format(
                         msg.get_data_length, command.get_expected_response_data_length()))
         else:
-            # Here we just assign the data to the correct parameter
-
-            data_start = 0
-            raw_data = msg.get_data()
-
-            for config in command.get_data_config():
-                data_end = index + config.get_length()
-                config.set_data(raw_data[data_start:data_end])
-                data_start = data_end
+            # Here we just assign the data to the correct output
+            self._assign_data(msg.get_data(), command.get_outputs())
 
         return response
+
+    def _assign_data(self, raw_data, outputs: List[Output]):
+        data_start = 0
+
+        for output in outputs:
+            data_end = index + output.get_length()
+            output.set_raw(raw_data[data_start:data_end])
+            data_start = data_end

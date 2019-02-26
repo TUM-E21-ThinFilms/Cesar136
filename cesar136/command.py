@@ -21,7 +21,7 @@ from cesar136.data_structure import *
 
 
 class Command:
-    def __init__(self, id, input_parameters: List[AbstractInput] = None, output_parameters: List[AbstractData] = None):
+    def __init__(self, id, input_parameters: List[AbstractInput] = None, output_parameters: List[Output] = None):
         self._id = id
         self._input = input_parameters
         self._output = output_parameters
@@ -29,7 +29,7 @@ class Command:
     def get_expected_response_data_length(self):
         return sum(map(lambda x: x.get_length(), self._output))
 
-    def get_data_config(self):
+    def get_outputs(self):
         return self._output
 
     def get_raw(self):
@@ -47,6 +47,7 @@ class Driver(Loggable):
     def __init__(self, protocol, logger):
         super(Driver, self).__init__(logger)
         assert isinstance(protocol, Protocol)
+        self._protocol = protocol
 
     def turn_off(self):
         return self._protocol.execute(Command(1, [], []))
@@ -55,139 +56,155 @@ class Driver(Loggable):
         return self._protocol.execute(Command(2, [], []))
 
     def set_regulation_mode(self, mode):
-        mode_input = IntegerInput(mode, ParamInfos.RegulationMode)
+        mode_input = Input(mode, Parameter.Regulation())
         return self._protocol.execute(Command(3, [mode_input], []))
 
     def set_forward_power_limit(self, power_limit):
-        power_input = IntegerInput(power_limit, ParamInfos.ForwardPowerLimit)
+        power_input = Input(power_limit, Parameter.ForwardPower())
         return self._protocol.execute(Command(4, [power_input], []))
 
     def set_reflected_power_limit(self, power_limit):
-        power_input = IntegerInput(power_limit, ParamInfos.ReflectedPowerLimit)
+        power_input = Input(power_limit, Parameter.ReflectedPower())
         return self._protocol.execute(Command(5, [power_input], []))
 
-    def set_power(self, power):
-        power_input = IntegerInput(power, ParamInfos.PowerSetPoint)
-        return self._protocol.execut(Command(8, [power_input], []))
+    def set_setpoint(self, power_or_voltage):
+        power_input = Input(power_or_voltage, Parameter.Setpoint())
+        return self._protocol.execute(Command(8, [power_input], []))
 
     def set_time_limit(self, time_limit):
-        time_input = IntegerInput(time_limit, ParamInfos.RFOnTimeLimit)
+        time_input = Input(time_limit, Parameter.OnTimeLimit())
         return self._protocol.execute(Command(10, [time_input], []))
 
     def set_control_mode(self, control_mode):
-        control_input = IntegerInput(control_mode, ParamInfos.ActiveControlMode)
+        control_input = Input(control_mode, Parameter.ControlMode())
         return self._protocol.execute(Command(14, [control_input], []))
 
+    def set_recipe_number(self, number):
+        number_input = Input(number, Parameter.Recipe.NumberOf())
+        return self._protocol.execute(Command(19, [number_input], []))
 
-class presetCommands():
-    # command 19
-    setNumberOfRecipeSteps = Command(19, 1, 1, [ParamInfos.NumberOfRecipeSteps])
+    def set_recipe_ramp_time(self, recipe_number, time):
+        number_input = Input(recipe_number, Parameter.Recipe.Number())
+        time_input = Input(time, Parameter.Recipe.RampTime())
+        return self._protocol.execute(21, [number_input, time_input], [])
 
-    # command 21
-    setRecipeStepRampTime = Command(21, 3, 1, [ParamInfos.RecipeStepNumber, ParamInfos.RecipeRampRunTime])
+    def set_recipe_power(self, recipe_number, power):
+        number_input = Input(recipe_number, Parameter.Recipe.Number())
+        power_input = Input(power, Parameter.Recipe.Setpoint())
+        return self._protocol.execute(22, [number_input, power_input], [])
 
-    # command 22
-    setStepSetPoint = Command(22, 3, 1, [ParamInfos.RecipeStepNumber, ParamInfos.PowerStepSetPoint])
+    def set_recipe_run_time(self, recipe_number, time):
+        number_input = Input(recipe_number, Parameter.Recipe.Number())
+        time_input = Input(time, Parameter.Recipe.RunTime())
+        return self._protocol.execute(23, [number_input, time_input], [])
 
-    # command 23
-    setRecipeStepRunTime = Command(23, 3, 1, [ParamInfos.RecipeStepNumber, ParamInfos.RecipeRampRunTime])
+    def save(self, preset_number):
+        preset_input = Input(preset_number, Parameter.Preset())
+        return self._protocol.execute(Command(24, [preset_input], []))
 
-    # command 24
-    savePresets = Command(24, 1, 1, [ParamInfos.PresetsNumber])
+    def restore(self, preset_number):
+        preset_input = Input(preset_number, Parameter.Preset())
+        return self._protocol.execute(Command(25, [preset_input], []))
 
-    # command 25
-    restorePresets = Command(25, 1, 1, [ParamInfos.PresetsNumber])
+    def set_remote_control(self, control_mode):
+        control_input = Input(control_mode, Parameter.ControlOverride())
+        return self._protocol.execute(Command(29, [control_input], []))
 
-    # command 29
-    setRemoteControlOverride = Command(29, 1, 1, [ParamInfos.RemoteControlOverride])
+    def set_user_port_scaling(self, voltage_scaling):
+        voltage_input = Input(voltage_scaling, Parameter.VoltageScaling())
+        return self._protocol.execute(Command(30, [voltage_input], []))
 
-    # command 30
-    setUserPortScaling = Command(30, 1, 1, [ParamInfos.UserPortScaling])
+    def set_ramping_rise_time(self, time):
+        time_input = Input(time, Parameter.RampTime())
+        return self._protocol.execute(Command(31, [time_input], []))
 
-    # command 31
-    setRFOnOffRampingRiseTime = Command(31, 2, 1, [ParamInfos.RampRiseFallTime])
+    def set_ramping_fall_time(self, time):
+        time_input = Input(time, Parameter.RampTime())
+        return self._protocol.execute(Command(32, [time_input], []))
 
-    # command 32
-    setRFOnOffRampingFallTime = Command(32, 2, 1, [ParamInfos.RampRiseFallTime])
+    def set_reflected_power_parameters(self, turn_off_time, power_limit_trigger):
+        time_input = Input(turn_off_time, Parameter.ReflectedPowerParameter.TimeLimit())
+        power_input = Input(power_limit_trigger, Parameter.ReflectedPowerParameter.PowerTrigger())
+        return self._protocol.execute(Command(33, [time_input, power_input], []))
 
-    # command 33
-    setReflectedPowerParameters = Command(33, 3, 1, [ParamInfos.SecondsToRFTurnOff, ParamInfos.PowerLimitTriggerInW])
+    def set_serial_baud_rate(self, baudrate):
+        baudrate_input = Input(baudrate, Parameter.BaudRate())
+        return self._protocol.execute(Command(69, [Input(0, Parameter.IgnoredByte()), baudrate_input], []))
 
-    # command 69
-    setSerialBaudRate = Command(69, 3, 1, [ParamInfos.IgnoredByte, ParamInfos.BaudRate])
+    def set_pulsing_frequency(self, frequency):
+        frequency_input = Input(frequency, Parameter.PulsingFrequency())
+        return self._protocol.execute(Command(93, [frequency_input], []))
 
-    # command 93
-    setPulsingFrequency = Command(93, 4, 1, [ParamInfos.PulsingFrequency])
+    def set_pulsing_duty_cycle(self, duty_cycle):
+        cycle_input = Input(duty_cycle, Parameter.PulsingDutyCycle())
+        return self._protocol.execute(Command(96, [cycle_input], []))
 
-    # command 96
-    setPulsingDutyCycle = Command(96, 2, 1, [ParamInfos.PulsingDutyCycle])
+    def get_power_supply_type(self):
+        return self._protocol.execute(Command(128, [], [Output(Parameter.SupplyType())]))
 
-    # command 128
-    reportPowerSupplyType = Command(128, 0, 5, [StringData(5)])
+    def get_model_number(self):
+        return self._protocol.execute(Command(129, [], [Output(Parameter.ModelNumber())]))
 
-    # command 129
-    reportModelNumber = Command(129, 0, 5, [StringData(5)])
+    def get_ramping_time(self):
+        return self._protocol.execute(Command(151, [], [Output(Parameter.RampTime(), Parameter.RampTime.KEY_RAMP_UP),
+                                                        Output(Parameter.RampTime(),
+                                                               Parameter.RampTime.KEY_RAMP_DOWN)]))
 
-    # command 151
-    reportRFRampOnOff = Command(151, 0, 4, [IntegerData(2, Parameter.RAMP_ON),
-                                            IntegerData(2, Parameter.RAMP_OFF)])
+    def get_reflected_power_parameters(self):
+        return self._protocol.execute(Command(152, [], [Output(Parameter.ReflectedPowerParameter.TimeLimit()),
+                                                        Output(Parameter.ReflectedPowerParameter.PowerTrigger())
 
-    # command 152
-    reportReflectedPowerParameters = Command(152, 0, 3, [IntegerData(1, Parameter.TIME_LIMIT_RF_TURN_OFF),
-                                                         IntegerData(2, Parameter.POWER_LIMIT_TRIGGER)])
+    def get_regulation_mode(self):
+        return self._protocol.execute(Command(154, [], [Output(Parameter.Regulation())]))
 
-    # command 154
-    reportRegulationMode = Command(154, 0, 1, [MappingData({6: Parameter.FORWARD_POWER,
-                                                            7: Parameter.LOAD_POWER,
-                                                            8: Parameter.EXTERNAL_POWER})])
+    def get_control_mode(self):
+        return self._protocol.execute(Command(155, [], [Output(Parameter.ControlMode())]))
 
-    # command 155
-    reportActiveControlMode = Command(155, 0, 1, [MappingData({2: Parameter.HOST_PORT,
-                                                               4: Parameter.USER_PORT,
-                                                               6: Parameter.FRONT_PANEL})])
+    def get_status(self):
+        return self._protocol.execute(Command(162, [], [FlagOutput(Parameter.Status())]))
 
-    # command 162
-    reportProcessStatus = Command(162, 0, 4, [ByteFlagData()] * 4)
+    def get_setpoint(self):
+        return self._protocol.execute(Command(164, [], [Output(Parameter.Setpoint(), Output(Parameter.Regulation()))]))
 
-    # command 164
-    reportSetPointAndRegulationMode = Command(164, 0, 3, [IntegerData(2, Parameter.SET_POINT_VALUE),
-                                                          MappingData({6: Parameter.FORWARD_POWER,
-                                                                       7: Parameter.LOAD_POWER,
-                                                                       8: Parameter.EXTERNAL_POWER})])
+    def get_forward_power(self):
+        return self._protocol.execute(Command(165, [], [Output(Parameter.ForwardPower())]))
 
-    # command 165
-    reportForwardPower = Command(165, 0, 2, [IntegerData(2)])
+    def get_reflected_power(self):
+        return self._protocol.execute(Command(166, [], [Output(Parameter.ReflectedPower())]))
 
-    # command 166
-    reportReflectedPower = Command(166, 0, 2, [IntegerData(2)])
+    def get_delivered_power(self):
+        return self._protocol.execute(Command(167, [], [Output(Parameter.ReflectedPower())]))
 
-    # command 167
-    reportDeliveredPower = Command(167, 0, 2, [IntegerData(2)])
+    def get_forward_power_limit(self):
+        return self._protocol.execute(Command(169, [], [Output(Parameter.ForwardPower())]))
 
-    # command 169
-    reportForwardPowerLimit = Command(169, 0, 2, [IntegerData(2)])
+    def get_reflected_power_limit(self):
+        return self._protocol.execute(Command(170, [], [Output(Parameter.ReflectedPower())]))
 
-    # command 170
-    reportReflectedPowerLimit = Command(170, 0, 2, [IntegerData(2)])
+    def get_recipe_setpoint_and_time(self, recipe_number):
+        number_input = Input(recipe_number, Parameter.Recipe.Number())
+        return self._protocol.execute(Command(188, [number_input], [Output(Parameter.Recipe.Setpoint()),
+                                                                    Output(Parameter.Recipe.RunTime())]))
 
-    # command 191
-    reportRecipeStepRampTime = Command(191, 1, 4, [ParamInfos.RecipeStepNumber, IntegerData(2)])
+    def get_recipe_ramp_time(self, recipe_number):
+        number_input = Input(recipe_number, Parameter.Recipe.Number())
+        return self._protocol.execute(Command(191, [number_input], [Output(Parameter.Recipe.RampTime()]))
 
-    # command 193
-    reportPulsingFrequency = Command(193, 0, 4, IntegerData(4))
+    def get_pulsing_frequency(self):
+        return self._protocol.execute(Command(193, [], [Output(Parameter.PulsingFrequency()]))
 
-    # command 196
-    reportPulsingDutyCycle = Command(196, 0, 2, [IntegerData(2)])
+    def get_pulsing_duty_cycle(self):
+        return self._protocol.execute(Command(196, [], [Output(Parameter.PulsingDutyCycle()]))
 
-    # command 205
-    reportUnitRunTime = Command(205, 0, 4, [IntegerData(4)])
+    def get_runtime(self):
+        return self._protocol.execute(Command(205, [], [Output(Parameter.Runtime())]))
 
-    # command 212
-    reportSerialPortAddressAndBaudRate = Command(212, 0, 3, [IntegerData(1, Parameter.AE_BUS_ADRESS),
-                                                             IntegerData(2, Parameter.BAUD_RATE)])
+    def get_serial_address_and_baudrate(self):
+        return self._protocol.execute(Command(212, [], [Output(Parameter.BusAddress()),
+                                                        Output(Parameter.BaudRate())]))
 
-    # command 223
-    reportFaultStatusRegister = Command(223, 0, 4, [ByteFlagData()] * 4)
+    def get_fault_register(self):
+        return self._protocol.execute(Command(223, [], [FlagOutput(Parameter.FaultRegister())]))
 
-    # command 243
-    reportRFOnTimeLimit = Command(243, 0, 2, [IntegerData(2)])
+    def get_time_limit(self):
+        return self._protocol.execute(Command(243, [], [Output(Parameter.OnTimeLimit())]))
