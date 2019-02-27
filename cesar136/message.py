@@ -26,7 +26,7 @@ class MessagePacket(object):
     CESAR_DEFAULT_DEVICE_NUMBER = 1
     MAX_DATA_LENGTH = 0b111
 
-    def __init__(self, binary_data=[], cesar_device_number=None):
+    def __init__(self, binary_data: bytearray = None, cesar_device_number=None):
 
         self._raw = binary_data
 
@@ -175,7 +175,7 @@ class MessagePacket(object):
         self._data_length = data_length
 
         if data is not None:
-            #temp = bytearray(data.to_bytes(self._data_length, "little"))
+            # temp = bytearray(data.to_bytes(self._data_length, "little"))
             self._data = [k for k in data]
 
             if self._data_length > 6:
@@ -186,7 +186,7 @@ class MessagePacket(object):
             self.create_header(self._data_length, self._device_id)
 
         self.assembleMessagePacket()
-        return self._intArray
+        return self.ByteArray
 
     def assembleMessagePacket(self):
         self.createIntArray()

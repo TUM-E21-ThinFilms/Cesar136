@@ -47,7 +47,7 @@ class Protocol(Loggable):
         with self._transport:
             self._write(command)
 
-            return self._read_response()
+            return self._read_response(command)
 
     def _write(self, command: Command):
         data = command.get_raw()
@@ -66,7 +66,7 @@ class Protocol(Loggable):
 
         # Remove the first data element, since this contains no information
         # in fact, we dont know why we get this data since its not part of the documentation
-        raw_response = raw_response[1:]
+        raw_response = bytearray(raw_response[1:])
 
         msg = MessagePacket.from_raw(raw_response)
 
