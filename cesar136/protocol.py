@@ -13,15 +13,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from cesar136.command import Command
-from cesar136.message import MessagePacket
-from cesar136.io_data import Output
-from cesar136.response import Response
+from typing import List
 
 from e21_util.serial_connection import AbstractTransport, SerialTimeoutException
 from e21_util.interface import Loggable
 from e21_util.lock import InterProcessTransportLock
 from e21_util.error import CommunicationError
+
+from cesar136.command import Command
+from cesar136.message import MessagePacket
+from cesar136.io_data import Output
+from cesar136.response import Response
 
 
 class Protocol(Loggable):
