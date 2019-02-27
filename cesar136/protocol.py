@@ -17,7 +17,6 @@ from typing import List
 
 from e21_util.serial_connection import AbstractTransport, SerialTimeoutException
 from e21_util.interface import Loggable
-from e21_util.lock import InterProcessTransportLock
 from e21_util.error import CommunicationError
 
 from cesar136.command import Command
@@ -36,7 +35,7 @@ class Protocol(Loggable):
         self._transport = transport
 
     def clear(self):
-        with InterProcessTransportLock(transport):
+        with self._transport:
             self.logger.debug("Clearing message queue")
             while True:
                 try:
@@ -45,7 +44,7 @@ class Protocol(Loggable):
                     return
 
     def execute(self, command: Command):
-        with InterProcessTransportLock(self._transport):
+        with self._transport:
             self._write(command)
 
             return self._read_response()
