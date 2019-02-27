@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import List
 from e21_util.interface import Loggable
 
 from cesar136.message import MessagePacket
