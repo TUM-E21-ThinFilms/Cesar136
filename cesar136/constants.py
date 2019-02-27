@@ -280,7 +280,7 @@ class Parameter(object):
 
     class ModelNumber(StringParameter):
         def __init__(self):
-            super(Parameter.SupplyType, self).__init__(5, NullValidator())
+            super(Parameter.ModelNumber, self).__init__(5, NullValidator())
 
     class Status(AbstractParameter):
         BIT_RECIPE_ACTIVE = (0, 2)
