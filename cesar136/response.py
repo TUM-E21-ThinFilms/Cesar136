@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import List
 
 from cesar136.constants import Parameter
 from cesar136.io_data import Output
-
 
 class Response(object):
     def __init__(self, outputs: List[Output]):
