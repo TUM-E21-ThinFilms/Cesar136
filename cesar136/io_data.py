@@ -46,7 +46,7 @@ class Output(object):
         return self._data
 
     def is_type(self, type):
-        return instanceof(self._parameter, type)
+        return isinstance(self._parameter, type)
 
 
 class FlagOutput(Output):
