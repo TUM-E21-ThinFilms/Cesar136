@@ -45,6 +45,9 @@ class Output(object):
     def get(self):
         return self._data
 
+    def is_set(self):
+        return self._data is not None
+
     def is_type(self, type):
         return isinstance(self._parameter, type)
 

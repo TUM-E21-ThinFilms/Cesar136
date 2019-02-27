@@ -46,7 +46,7 @@ class StringParameter(AbstractParameter):
         return str(data).encode("ascii")
 
     def parse(self, raw_data):
-        data = [k for k in data if k != 0]
+        data = [k for k in raw_data if k != 0]
         return bytearray(data).decode(encoding='ascii')
 
 

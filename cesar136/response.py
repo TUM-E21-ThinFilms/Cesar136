@@ -42,7 +42,7 @@ class Response(object):
             raise RuntimeError("Response contains only CSR code")
 
         if len(self._params) == 1:
-            return self._params[0]._data
+            return self._params[0]
 
         if isinstance(type_or_name, string):
             for el in self._params:

@@ -96,6 +96,6 @@ class Protocol(Loggable):
         data_start = 0
 
         for output in outputs:
-            data_end = index + output.get_length()
+            data_end = data_start + output.get_length()
             output.set_raw(raw_data[data_start:data_end])
             data_start = data_end
