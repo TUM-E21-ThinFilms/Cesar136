@@ -44,7 +44,7 @@ class Response(object):
         if len(self._params) == 1 and type_or_name is None:
             return self._params[0]
 
-        if isinstance(type_or_name, string):
+        if isinstance(type_or_name, str):
             for el in self._params:
                 if el.get_name() == type_or_name:
                     return el
@@ -53,4 +53,4 @@ class Response(object):
                 if el.is_type(type_or_name):
                     return el
 
-        raise RuntimeError("Could not find given parameter {}".format(name))
+        raise RuntimeError("Could not find given parameter {}".format(type_or_name))
