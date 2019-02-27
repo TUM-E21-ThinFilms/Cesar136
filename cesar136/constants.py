@@ -15,10 +15,11 @@
 from cesar136.parameter import AbstractParameter, StringParameter, RangeParameter
 from cesar136.validator import ValidationError, NullValidator
 
+class CesarDevice(object):
+    MAXIMUM_POWER = 600
+
 
 class Parameter(object):
-    class DEVICE(object):
-        MAXIMUM_POWER = 600
 
     class CSRCode(RangeParameter):
         UNKNOWN = -1
@@ -61,14 +62,14 @@ class Parameter(object):
     class Setpoint(RangeParameter):
         MAXIMUM = 0  # 0 corresponds to the max, for some reasons.. ask the device developers
         MINIMUM = 1
-        RANGE = range(0, Parameter.DEVICE.MAXIMUM_POWER + 1)
+        RANGE = range(0, CesarDevice.MAXIMUM_POWER + 1)
 
         def __init__(self):
             super(Parameter.Setpoint, self).__init__(2)
 
     class ForwardPower(RangeParameter):
         MINIMUM = 30
-        MAXIMUM = Parameter.DEVICE.MAXIMUM_POWER
+        MAXIMUM = CesarDevice.MAXIMUM_POWER
         RANGE = range(MINIMUM, MAXIMUM + 1)
 
         def __init__(self):
@@ -145,7 +146,7 @@ class Parameter(object):
         class Setpoint(RangeParameter):
             MINIMUM = 1
             MAXIMUM = 0
-            RANGE = range(MINIMUM, Parameter.DEVICE.MAXIMUM_POWER + 1)
+            RANGE = range(MINIMUM, CesarDevice.MAXIMUM_POWER + 1)
 
             def __init__(self):
                 super(Parameter.Recipe.Setpoint, self).__init__(1)
@@ -233,7 +234,7 @@ class Parameter(object):
             """
             DISABLED = 0
             MINIMUM = 1
-            MAXIMUM = Parameter.DEVICE.MAXIMUM_POWER
+            MAXIMUM = CesarDevice.MAXIMUM_POWER
             RANGE = (0, MAXIMUM + 1)
 
             def __init__(self):
