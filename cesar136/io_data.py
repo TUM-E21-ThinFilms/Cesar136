@@ -48,8 +48,8 @@ class Output(object):
     def is_set(self):
         return self._data is not None
 
-    def is_type(self, type):
-        return isinstance(self._parameter, type)
+    def is_type(self, type_of):
+        return isinstance(self._parameter, type_of)
 
 
 class FlagOutput(Output):

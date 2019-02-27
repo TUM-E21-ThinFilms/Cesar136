@@ -44,13 +44,15 @@ class Response(object):
         if len(self._params) == 1 and type_or_name is None:
             return self._params[0]
 
-        if isinstance(type_or_name, str):
+        if isinstance(type_or_name, (int, str)):
             for el in self._params:
                 if el.get_name() == type_or_name:
                     return el
-        else:
+        elif type_or_name is not None:
             for el in self._params:
                 if el.is_type(type_or_name):
                     return el
+        else:
+            raise RuntimeError("No selector given")
 
         raise RuntimeError("Could not find given parameter {}".format(type_or_name))
