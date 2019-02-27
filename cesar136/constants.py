@@ -12,62 +12,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from cesar136.parameter import AbstractParameter, StringParameter, RangeParameter
+from cesar136.validator import ValidationError, NullValidator
 
-class ValidationError(RuntimeError):
-    pass
-
-
-class AbstractValidator(object):
-    def validate(self, data):
-        raise NotImplementedError()
-
-
-class NullValidator(AbstractValidator):
-    def validate(self, data):
-        return True
-
-
-class RangeValidator(object):
-    def __init__(self, in_range):
-        self._range = in_range
-
-    def validate(self, data):
-        if data not in self._range:
-            raise ValidationError()
-
-
-class AbstractParameter(object):
-    def __init__(self, length, validator):
-        self._length = length
-        self._validator = validator
-
-    def get_length(self):
-        return self._length
-
-    def get_validator(self) -> AbstractValidator:
-        return self._validator
-
-    def generate(self, data):
-        return data.to_bytes(self._length, byteorder="little")
-
-    def parse(self, raw_data):
-        return int.from_bytes(raw_data, byteorder="little")
-
-class ByteFlagParameter(AbstractParameter):
-    def get_from(self, data, bit):
-        return data & (1 << 8 * bit[0] + bit[1])
-
-class StringParameter(AbstractParameter):
-    def generate(self, data):
-        return data.encode("ascii")
-
-    def parse(self, raw_data):
-        data = [k for k in data if k != 0]
-        return bytearray(data).decode(encoding='ascii')
-
-class RangeParameter(AbstractParameter):
-    def __init__(self, length):
-        super(RangeValidator, self).__init__(length, RangeValidator(self.RANGE))
 
 class Parameter(object):
     class DEVICE(object):
@@ -312,7 +259,7 @@ class Parameter(object):
 
     class PulsingFrequency(RangeParameter):
         MINIMUM = 1
-        MAXIMUM = 2000 # TODO: wrong max
+        MAXIMUM = 2000  # TODO: wrong max
         RANGE = range(MINIMUM, MAXIMUM + 1)
 
         def __init__(self):
@@ -359,7 +306,6 @@ class Parameter(object):
             super(Parameter.BusAddress, self).__init__(1, NullValidator())
 
     class FaultRegister(AbstractParameter):
-
         BIT_INTERLOCK_OPEN = (0, 0)
         BIT_SMPS_TEMPERATURE_TOO_HIGH = (0, 1)
         BIT_RF_GENERATOR_TEMPERATURE_TOO_HIGH = (0, 2)

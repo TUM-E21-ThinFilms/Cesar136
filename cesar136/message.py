@@ -22,12 +22,6 @@
 from typing import List
 
 
-# from cesar136.command import
-
-def intToBytearray(Int, NumberOfBytes):
-    return bytearray(Int.to_bytes(NumberOfBytes, "little"))
-
-
 class MessagePacket(object):
     CESAR_DEFAULT_DEVICE_NUMBER = 1
     MAX_DATA_LENGTH = 0b111
@@ -148,10 +142,10 @@ class MessagePacket(object):
         if serialnumber is None:
             serialnumber = self.CESAR_DEFAULT_DEVICE_NUMBER
 
-
         self._header = (serialnumber << 3) | datalength
 
-    def xor(self, raw: bytearray):
+    @staticmethod
+    def xor(raw: bytearray):
         result = 0
 
         for data in raw:
@@ -181,7 +175,7 @@ class MessagePacket(object):
         self._data_length = data_length
 
         if data is not None:
-            temp = intToBytearray(data, self._data_length)
+            temp = bytearray(data.to_bytes(self._data_length, "little"))
             self._data = [k for k in temp]
 
             if self._data_length > 6:
@@ -195,16 +189,6 @@ class MessagePacket(object):
         return self._intArray
 
     def assembleMessagePacket(self):
-        # assembles every component of the message, calculates the Checksum and
         self.createIntArray()
         self.compute_checksum()
         self.ByteArray = bytearray(self._intArray)
-
-
-# x=MessagePacket()
-# r=x.createMessagePacket(1)
-# s=MessagePacket()
-# f=s.createMessagePacket(129)
-# kl=MessagePacket().createMessagePacket(125)
-#
-# print(kl)

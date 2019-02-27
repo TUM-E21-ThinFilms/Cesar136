@@ -14,8 +14,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from cesar136.command import Command
-from cesar136.raw_message_packet import MessagePacket
-from cesar136.data_structure import Response, Output
+from cesar136.message import MessagePacket
+from cesar136.io_data import Output
+from cesar136.response import Response
 
 from e21_util.serial_connection import AbstractTransport, SerialTimeoutException
 from e21_util.interface import Loggable
