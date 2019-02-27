@@ -46,7 +46,9 @@ class Parameter(object):
 
         def parse(self, raw_data):
             if len(raw_data) > 0:
-                return super(Parameter.CSRCode, self).parse(raw_data[0])
+                # Note that raw_data[0:1] returns a bytearray
+                # and raw_data[0] returns an int ;)
+                return super(Parameter.CSRCode, self).parse(raw_data[0:1])
             raise ValidationError("Given CSRCode is empty")
 
     class Regulation(RangeParameter):

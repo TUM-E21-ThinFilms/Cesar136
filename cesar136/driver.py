@@ -18,7 +18,7 @@ from e21_util.interface import Loggable
 from cesar136.constants import Parameter
 from cesar136.protocol import Protocol
 from cesar136.command import Command
-from cesar136.io_data import Output, FlagOutput
+from cesar136.io_data import Output, FlagOutput, Input
 
 
 class Driver(Loggable):
