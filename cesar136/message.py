@@ -175,8 +175,8 @@ class MessagePacket(object):
         self._data_length = data_length
 
         if data is not None:
-            temp = bytearray(data.to_bytes(self._data_length, "little"))
-            self._data = [k for k in temp]
+            #temp = bytearray(data.to_bytes(self._data_length, "little"))
+            self._data = [k for k in data]
 
             if self._data_length > 6:
                 self._optional_length = self._data_length

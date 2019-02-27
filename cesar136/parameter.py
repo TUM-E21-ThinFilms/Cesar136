@@ -29,7 +29,8 @@ class AbstractParameter(object):
         return self._validator
 
     def generate(self, data):
-        return data.to_bytes(self._length, byteorder="little")
+        data = int(data)
+        return int(data).to_bytes(self._length, byteorder="little")
 
     def parse(self, raw_data):
         return int.from_bytes(raw_data, byteorder="little")
@@ -42,7 +43,7 @@ class ByteFlagParameter(AbstractParameter):
 
 class StringParameter(AbstractParameter):
     def generate(self, data):
-        return data.encode("ascii")
+        return str(data).encode("ascii")
 
     def parse(self, raw_data):
         data = [k for k in data if k != 0]
