@@ -39,6 +39,6 @@ class Command:
         for input in self._input:
             data.extend(input.get())
 
-        bytes_to_send = len(self._data)
+        bytes_to_send = len(data)
 
         return MessagePacket().createMessagePacket(self._id, bytes_to_send, data)
