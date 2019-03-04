@@ -27,6 +27,8 @@ from cesar136.response import Response
 
 class Protocol(Loggable):
     RESPONSE_MAX_LENGTH = 10
+    ACK = 0x06
+    NAK = 0x15
 
     def __init__(self, transport: AbstractTransport, logger):
         super(Protocol, self).__init__(logger)
@@ -58,15 +60,27 @@ class Protocol(Loggable):
     def _read_response(self, command: Command):
 
         try:
+            # Read exactly one byte. This is the verification of the cesar unit
+            # its either ACK (0x06) or NACK (0x15)
+            verification = self._transport.read(1)
+
+            if verification == self.ACK:
+                pass
+            elif verification == self.NAK:
+                raise CommunicationError("Device returned NAK")
+
             # in fact, we can compute how long the response will be, based on the first two bytes read
             # but this works for us and we dont care about more details...
             raw_response = self._transport.read(self.RESPONSE_MAX_LENGTH)
+
+            # Now send back a ACK since we got our data, even if the data is not valid
+            # We just dont care about this. If the data is not valid, we throw an execption
+            # and the calling api will re-engage into sending the message
+            self._transport.write(bytearray(self.ACK))
         except SerialTimeoutException:
             raise CommunicationError("Could not read response. Timeout")
 
-        # Remove the first data element, since this contains no information
-        # in fact, we dont know why we get this data since its not part of the documentation
-        raw_response = bytearray(raw_response[1:])
+        raw_response = bytearray(raw_response)
 
         msg = MessagePacket.from_raw(raw_response)
 
