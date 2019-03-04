@@ -36,7 +36,7 @@ class Protocol(Loggable):
 
     def clear(self):
         with self._transport:
-            self.logger.debug("Clearing message queue")
+            self._logger.debug("Clearing message queue")
             while True:
                 try:
                     self._transport.read_bytes(32)
