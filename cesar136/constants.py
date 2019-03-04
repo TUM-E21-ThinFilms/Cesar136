@@ -184,7 +184,7 @@ class Parameter(object):
         BIT_ENABLE_ROTATING_KNOB = 2
         BIT_ENABLE_MATCHING_KEYS = 4
         BIT_ENABLE_SETTING_ON_OFF_USER_PORT = 8
-        BIT_ENABLE_SERRING_POWER_SETPOINT_USER_PORT = 16
+        BIT_ENABLE_SETTING_POWER_SETPOINT_USER_PORT = 16
 
         def __init__(self):
             super(Parameter.ControlOverride, self).__init__(1)

@@ -37,7 +37,7 @@ class Response(object):
     def set_parameter(self, data: Output):
         self._params.append(data)
 
-    def get_parameter(self, type_or_name=None):
+    def get_parameter(self, type_or_name=None) -> Output:
         if self.is_csr():
             raise RuntimeError("Response contains only CSR code")
 
