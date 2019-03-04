@@ -241,7 +241,7 @@ class Parameter(object):
             DISABLED = 0
             MINIMUM = 1
             MAXIMUM = CesarDevice.MAXIMUM_POWER
-            RANGE = (0, MAXIMUM + 1)
+            RANGE = range(0, MAXIMUM + 1)
 
             def __init__(self):
                 super(Parameter.ReflectedPowerParameter.PowerTrigger, self).__init__(2)
