@@ -34,4 +34,4 @@ class RangeValidator(object):
 
     def validate(self, data):
         if data not in self._range:
-            raise ValidationError()
+            raise ValidationError("Data {} not in range {}".format(data, self._range))
