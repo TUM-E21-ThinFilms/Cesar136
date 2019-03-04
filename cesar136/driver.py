@@ -27,6 +27,9 @@ class Driver(Loggable):
         assert isinstance(protocol, Protocol)
         self._protocol = protocol
 
+    def clear(self):
+        return self._protocol.clear()
+
     def turn_off(self):
         return self._protocol.execute(Command(1, [], []))
 
