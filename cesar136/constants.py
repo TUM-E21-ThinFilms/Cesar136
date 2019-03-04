@@ -15,12 +15,12 @@
 from cesar136.parameter import AbstractParameter, StringParameter, RangeParameter
 from cesar136.validator import ValidationError, NullValidator
 
+
 class CesarDevice(object):
     MAXIMUM_POWER = 600
 
 
 class Parameter(object):
-
     class CSRCode(RangeParameter):
         UNKNOWN = -1
 
@@ -77,7 +77,11 @@ class Parameter(object):
         def __init__(self):
             super(Parameter.ForwardPower, self).__init__(2)
 
-    class ReflectedPower(AbstractParameter):
+    class ReflectedPower(RangeParameter):
+        MINIMUM = 1
+        MAXIMUM = CesarDevice.MAXIMUM_POWER
+        RANGE = range(MINIMUM, MAXIMUM + 1)
+
         def __init__(self):
             super(Parameter.ReflectedPower, self).__init__(2)
 
