@@ -53,8 +53,8 @@ class Protocol(Loggable):
 
     def _write(self, command: Command):
         data = command.get_raw()
-        self._logger.debug("Sending message '%s'", " ".join(map(hex, data)))
 
+        self._logger.debug("Sending message '%s'", " ".join(map(hex, data)))
         self._transport.write(data)
 
     def _read_response(self, command: Command):
@@ -77,11 +77,11 @@ class Protocol(Loggable):
             raw_response = self._transport.read(self.RESPONSE_MAX_LENGTH)
             self._logger.debug("Received {}".format(raw_response))
 
+            self._logger.debug("Sending ACK to device")
             try:
                 # Now send back a ACK since we got our data, even if the data is not valid
                 # We just don't care about this. If the data is not valid, we throw an exception
                 # and the calling api will re-engage into sending the message
-                self._logger.debug("Sending ACK to device")
                 self._transport.write(bytearray(self.ACK))
             except:
                 raise CommunicationError("Could not send ACK to device")

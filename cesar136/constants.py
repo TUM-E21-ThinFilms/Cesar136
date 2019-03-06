@@ -262,7 +262,7 @@ class Parameter(object):
 
     class IgnoredByte(AbstractParameter):
         def __init__(self):
-            super(Parameter.IgnoredByte, self).__init__(1)
+            super(Parameter.IgnoredByte, self).__init__(1, NullValidator())
 
     class PulsingFrequency(RangeParameter):
         MINIMUM = 1
