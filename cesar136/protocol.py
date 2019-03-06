@@ -73,16 +73,15 @@ class Protocol(Loggable):
 
             # in fact, we can compute how long the response will be, based on the first two bytes read
             # but this works for us and we dont care about more details...
-            self._logger.debug("Reading {} bytes from device".format(self.RESPONSE_MAX_LENGTH))
             raw_response = self._transport.read(self.RESPONSE_MAX_LENGTH)
             self._logger.debug("Received {}".format(raw_response))
 
-            self._logger.debug("Sending ACK to device")
             try:
                 # Now send back a ACK since we got our data, even if the data is not valid
                 # We just don't care about this. If the data is not valid, we throw an exception
                 # and the calling api will re-engage into sending the message
-                self._transport.write(bytearray(self.ACK))
+                self._transport.write(bytearray([self.ACK]))
+                self._logger.debug("Sent ACK to device")
             except:
                 raise CommunicationError("Could not send ACK to device")
 
