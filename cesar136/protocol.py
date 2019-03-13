@@ -54,7 +54,7 @@ class Protocol(Loggable):
     def _write(self, command: Command):
         data = command.get_raw()
 
-        self._logger.debug("Sending message '%s'", " ".join(map(hex, data)))
+        self._logger.debug("Sending message '{}'".format(" ".join(map(hex, data))))
         self._transport.write(data)
 
     def _read_response(self, command: Command):
@@ -74,16 +74,13 @@ class Protocol(Loggable):
             # in fact, we can compute how long the response will be, based on the first two bytes read
             # but this works for us and we dont care about more details...
             raw_response = self._transport.read(self.RESPONSE_MAX_LENGTH)
-            self._logger.debug("Received {}".format(raw_response))
+            self._logger.debug("Received {}".format(" ".join(map(hex, raw_response))))
 
-            try:
-                # Now send back a ACK since we got our data, even if the data is not valid
-                # We just don't care about this. If the data is not valid, we throw an exception
-                # and the calling api will re-engage into sending the message
-                self._transport.write(bytearray([self.ACK]))
-                self._logger.debug("Sent ACK to device")
-            except:
-                raise CommunicationError("Could not send ACK to device")
+            # Now send back a ACK since we got our data, even if the data is not valid
+            # We just don't care about this. If the data is not valid, we throw an exception
+            # and the calling api will re-engage into sending the message
+            self._transport.write(bytearray([self.ACK]))
+            self._logger.debug("Sent ACK to device")
 
         except SerialTimeoutException:
             raise CommunicationError("Could not read response. Timeout")
@@ -106,7 +103,7 @@ class Protocol(Loggable):
                 response.get_csr().set_raw(msg.get_data())
             else:
                 raise CommunicationError(
-                    "Received an unexpected amount of data (%s bytes) from device. Expectation was %s bytes (excluding CSR)".format(
+                    "Received an unexpected amount of data ({} bytes) from device. Expected {} bytes (excluding CSR)".format(
                         msg.get_data_length, command.get_expected_response_data_length()))
         else:
             # Here we just assign the data to the correct output
@@ -114,7 +111,8 @@ class Protocol(Loggable):
 
         return response
 
-    def _assign_data(self, raw_data, outputs: List[Output]):
+    @classmethod
+    def _assign_data(cls, raw_data, outputs: List[Output]):
         data_start = 0
 
         for output in outputs:
